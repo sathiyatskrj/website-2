@@ -22,6 +22,11 @@ const HoverCard = dynamic(
   { ssr: false }
 );
 
+const AnimatedLink = dynamic(
+  () => import("@/components/animations/MicroAnimations").then((m) => ({ default: m.AnimatedLink })),
+  { ssr: false }
+);
+
 const AnimeTextReveal = dynamic(
   () => import("@/components/animations/AnimeTextReveal").then((m) => ({ default: m.AnimeTextReveal })),
   { ssr: false }
