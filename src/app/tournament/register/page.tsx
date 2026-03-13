@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Suspense } from "react";
 
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+import { mockTournaments } from "@/lib/mockData";
 
 const schema = z.object({
   name: z.string().min(3),
