@@ -144,7 +144,7 @@ export default function PlayersPage() {
           )}
         </div>
 
-        {!isLoading && filteredPlayers.length > 0 && (
+        {filteredPlayers.length > 0 && (
             <div className="mt-4 flex justify-between items-center text-sm text-muted-foreground">
             <span>Showing {filteredPlayers.length} registered players</span>
             <div className="flex gap-2">
