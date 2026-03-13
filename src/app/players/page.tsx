@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Search, Trophy, Users, ChevronRight } from "lucide-react";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+import { mockPlayers } from "@/lib/mockData";
 
 interface Player {
   id: string;
@@ -41,8 +42,10 @@ export default function PlayersPage() {
         // @ts-ignore
         .order("rating", { ascending: false, nullsFirst: false });
 
-      if (data) {
+      if (data && data.length > 0) {
         setPlayers(data);
+      } else {
+        setPlayers(mockPlayers);
       }
       setIsLoading(false);
     }

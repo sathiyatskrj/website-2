@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronRight, Image as ImageIcon } from "lucide-react";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { format, parseISO } from "date-fns";
+import { mockGallery } from "@/lib/mockData";
 
 interface GalleryItem {
   id: string;
@@ -25,7 +26,11 @@ export default function GalleryPage() {
         .select("*")
         .order("date", { ascending: false });
 
-      if (data) setImages(data);
+      if (data && data.length > 0) {
+        setImages(data);
+      } else {
+        setImages(mockGallery);
+      }
       setIsLoading(false);
     }
     fetchGallery();

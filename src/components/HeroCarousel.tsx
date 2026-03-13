@@ -4,8 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import Floating3DHero from "@/components/animations/Floating3DHero";
-import VantaBackground from "@/components/animations/VantaBackground";
+import FramerChessBackground from "@/components/animations/FramerChessBackground";
 import { HeroTypewriter } from "@/components/animations/TypewriterText";
 
 const slides = [
@@ -67,10 +66,7 @@ export function HeroCarousel() {
   return (
     <div className="relative w-full h-[380px] md:h-[500px] lg:h-[620px] overflow-hidden group">
       
-      {/* 3D Render layers - Persistent across slide changes */}
-      <VantaBackground effect="net" color={0x3b82f6} backgroundColor={0x050510} className="absolute inset-0 z-0">
-          <Floating3DHero />
-      </VantaBackground>
+      <FramerChessBackground />
 
       <AnimatePresence initial={false} custom={direction} mode="wait">
         <motion.div
@@ -131,9 +127,10 @@ export function HeroCarousel() {
               >
                 <Link
                   href={slide.link}
-                  className="inline-block border-2 border-amber-400 bg-amber-400/10 backdrop-blur-sm text-amber-400 hover:bg-amber-400 hover:text-[#0f172a] font-bold uppercase tracking-widest px-7 md:px-10 py-3 text-sm transition-all duration-300 shadow-[0_0_15px_rgba(251,191,36,0.3)] hover:shadow-[0_0_30px_rgba(251,191,36,0.6)]"
+                  className="inline-block relative overflow-hidden group/btn border-2 border-amber-400 bg-amber-400/10 backdrop-blur-sm text-amber-400 hover:text-[#0f172a] font-bold uppercase tracking-widest px-7 md:px-10 py-3 text-sm transition-all duration-300 shadow-[0_0_15px_rgba(251,191,36,0.2)] hover:shadow-[0_0_30px_rgba(251,191,36,0.6)]"
                 >
-                  {slide.cta} →
+                  <span className="relative z-10 flex items-center gap-2">{slide.cta} <ChevronRight className="h-4 w-4" /></span>
+                  <div className="absolute inset-0 bg-amber-400 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform origin-left duration-300 ease-out z-0"></div>
                 </Link>
               </motion.div>
             </div>

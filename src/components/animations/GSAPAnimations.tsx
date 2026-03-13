@@ -109,7 +109,7 @@ export function GSAPStagger({
       };
 
       ctx = gsap.context(() => {
-        gsap.from(ref.current!.children, {
+        gsap.from(Array.from(ref.current!.children), {
           ...fromVars[from],
           duration: 0.7,
           delay,

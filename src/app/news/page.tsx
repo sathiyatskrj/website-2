@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Calendar, FileText, Download, ChevronRight, Newspaper } from 'lucide-react';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { format, parseISO } from 'date-fns';
+import { mockNews } from '@/lib/mockData';
 
 interface NewsItem {
   id: string;
@@ -28,7 +29,11 @@ export default function NewsPage() {
         .select("*")
         .order("published_date", { ascending: false });
 
-      if (data) setNews(data);
+      if (data && data.length > 0) {
+        setNews(data);
+      } else {
+        setNews(mockNews as any);
+      }
       setIsLoading(false);
     }
     fetchNews();

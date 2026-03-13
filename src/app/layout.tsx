@@ -32,6 +32,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${poppins.variable} font-sans antialiased bg-background text-foreground flex flex-col min-h-screen`}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"

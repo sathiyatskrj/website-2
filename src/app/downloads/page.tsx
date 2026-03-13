@@ -5,6 +5,7 @@ import { Download, FileText, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { format, parseISO } from "date-fns";
+import { mockDownloads } from "@/lib/mockData";
 
 interface DownloadItem {
   id: string;
@@ -26,7 +27,11 @@ export default function DownloadsPage() {
         .select("*")
         .order("uploaded_at", { ascending: false });
 
-      if (data) setDocuments(data);
+      if (data && data.length > 0) {
+        setDocuments(data);
+      } else {
+        setDocuments(mockDownloads);
+      }
       setIsLoading(false);
     }
     fetchDocs();

@@ -26,7 +26,17 @@ const AnimeTextReveal = dynamic(
   () => import("@/components/animations/AnimeTextReveal").then((m) => ({ default: m.AnimeTextReveal })),
   { ssr: false }
 );
-import { GSAPReveal, GSAPStagger, GSAPCounter } from "@/components/animations/GSAPAnimations";
+const StaggerList = dynamic(
+  () => import("@/components/animations/AnimationUtils").then((m) => ({ default: m.StaggerList })),
+  { ssr: false }
+);
+
+const CountUp = dynamic(
+  () => import("@/components/animations/AnimationUtils").then((m) => ({ default: m.CountUp })),
+  { ssr: false }
+);
+
+// We keep ChessPuzzleDisplay for later or other parts.
 import { ChessPuzzleDisplay } from "@/components/games/MiniChessBoard";
 
 // (Skipping unchanging top constants ... keeping original constants intact)
@@ -62,196 +72,150 @@ const quickLinks = [
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full bg-background overflow-x-hidden">
       {/* News Ticker */}
       <NewsTicker />
 
-      {/* Hero Carousel — Canvas BG + Typed.js headline */}
+      {/* Hero Carousel — Framer Motion Animated Mesh BG */}
       <HeroCarousel />
 
-      {/* GSAP Counter Stats Strip */}
-      <section className="bg-primary text-primary-foreground border-b-4 border-secondary">
-        <div className="container mx-auto px-4 py-5">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-primary-foreground/20">
-            {stats.map((stat, i) => {
-              const Icon = stat.icon;
-              return (
-                <GSAPReveal key={stat.label} delay={i * 0.12} from="bottom" className="px-4 py-2 flex items-center gap-3">
-                  <Icon className="h-8 w-8 text-secondary hidden lg:block shrink-0" />
-                  <div>
-                    <div className="text-2xl md:text-3xl font-black font-poppins">
-                      <GSAPCounter to={stat.value} suffix={stat.suffix} duration={2.5} />
+      {/* Modern Bento Grid Main Content */}
+      <section className="py-16 container mx-auto px-4 relative">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none" />
+        
+        {/* Bento Grid layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[minmax(180px,auto)] relative z-10">
+          
+          {/* Stats Bento Block - Spans 4 cols on lg */}
+          <div className="lg:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 relative">
+            <StaggerList stagger={0.1} delay={0.1} className="col-span-2 md:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-6">
+              {stats.map((stat, i) => {
+                const Icon = stat.icon;
+                return (
+                  <HoverCard key={stat.label} className="glass-panel p-6 flex flex-col items-center justify-center text-center gap-3 relative overflow-hidden group rounded-2xl">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    <Icon className="h-10 w-10 text-secondary mb-2" />
+                    <div className="text-3xl md:text-5xl font-black font-poppins text-foreground text-glow tracking-tight">
+                      <CountUp to={stat.value} suffix={stat.suffix} duration={2.5} />
                     </div>
-                    <div className="text-xs uppercase tracking-widest text-primary-foreground/70 font-medium">{stat.label}</div>
-                  </div>
-                </GSAPReveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content Grid */}
-      <section className="py-10 container mx-auto px-4">
-        <div className="grid lg:grid-cols-12 gap-8">
-
-          {/* Left Column */}
-          <div className="lg:col-span-8 flex flex-col gap-8">
-
-            {/* Latest Announcements with GSAP stagger */}
-            <div>
-              <GSAPReveal from="left" className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="h-5 w-1 bg-secondary rounded-full"></div>
-                  <AnimeTextReveal text="Latest Announcements" className="text-xl font-poppins font-bold text-primary uppercase tracking-wider" />
-                </div>
-                <Link href="/news" className="text-sm text-primary font-semibold flex items-center gap-1 hover:gap-2 transition-all">
-                  View All <ChevronRight className="h-4 w-4" />
-                </Link>
-              </GSAPReveal>
-
-              <div className="bg-card border border-border rounded-md shadow-sm overflow-hidden">
-                <GSAPStagger stagger={0.1} from="bottom" className="divide-y divide-border">
-                  {newsItems.map((item) => (
-                    <div className="px-5 py-4 hover:bg-muted/50 transition-colors flex items-start gap-4" key={item.title}>
-                      <div className="bg-primary text-primary-foreground rounded py-1 px-2 text-center shrink-0 hidden sm:block">
-                        <span className="text-lg font-bold leading-none block">{item.date.split(" ")[0]}</span>
-                        <span className="text-[10px] uppercase block">{item.date.split(" ")[1]}</span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-sm ${item.tagColor}`}>
-                          {item.tag}
-                        </span>
-                        <p className="font-medium text-foreground text-sm mt-1.5 leading-snug line-clamp-2">{item.title}</p>
-                      </div>
-                      <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0 mt-1 hidden sm:block" />
-                    </div>
-                  ))}
-                </GSAPStagger>
-              </div>
-            </div>
-
-            {/* Upcoming Events */}
-            <div>
-              <GSAPReveal from="left" className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="h-5 w-1 bg-secondary rounded-full"></div>
-                  <AnimeTextReveal text="Upcoming Tournaments" className="text-xl font-poppins font-bold text-primary uppercase tracking-wider" />
-                </div>
-                <Link href="/tournaments" className="text-sm text-primary font-semibold flex items-center gap-1 hover:gap-2 transition-all">
-                  Full Calendar <ChevronRight className="h-4 w-4" />
-                </Link>
-              </GSAPReveal>
-
-              <GSAPStagger stagger={0.12} from="scale" className="grid sm:grid-cols-3 gap-4">
-                {upcomingEvents.map((event) => (
-                  <HoverCard key={event.name} className="bg-card border border-border rounded-md p-5 shadow-sm">
-                    <Trophy className="h-8 w-8 text-secondary mb-3" />
-                    <h3 className="font-bold text-foreground text-sm mb-1 line-clamp-2">{event.name}</h3>
-                    <p className="text-xs text-muted-foreground">{event.date} · {event.venue}</p>
-                    <p className="mt-2 text-xs font-bold text-green-700 bg-green-50 inline-block px-2 py-0.5 rounded-sm">{event.status}</p>
+                    <div className="text-xs md:text-sm font-bold uppercase tracking-widest text-muted-foreground">{stat.label}</div>
                   </HoverCard>
-                ))}
-              </GSAPStagger>
-            </div>
-
-            {/* About Banner */}
-            <GSAPReveal from="bottom" delay={0.1}>
-              <div className="bg-primary rounded-md p-6 md:p-8 text-primary-foreground relative overflow-hidden shadow-lg">
-                <div className="absolute right-0 top-0 text-[160px] leading-none font-black opacity-5 select-none pointer-events-none font-poppins">♛</div>
-                <AnimeTextReveal text="About ANCA" className="text-2xl font-bold font-poppins mb-2" delay={400} />
-                <p className="text-primary-foreground/80 text-sm leading-relaxed mb-4 max-w-2xl">
-                  The Andaman &amp; Nicobar Chess Association (ANCA) is the official governing body affiliated to AICF and FIDE,
-                  promoting chess across all islands since 2005 through tournaments, training, and talent development.
-                </p>
-                <Link href="/about" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest border border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground px-5 py-2 rounded transition-colors">
-                  Read More <ChevronRight className="h-4 w-4" />
-                </Link>
-              </div>
-            </GSAPReveal>
+                );
+              })}
+            </StaggerList>
           </div>
 
-          {/* Right Sidebar */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
+          {/* About ANCA - Tall Block */}
+          <ScrollReveal delay={0.2} className="lg:col-span-2 md:row-span-2 glass-panel-heavy rounded-3xl p-8 relative overflow-hidden flex flex-col justify-end group">
+            <div className="absolute right-0 top-0 w-64 h-64 bg-primary/10 rounded-full blur-[50px] pointer-events-none" />
+            <div className="absolute -right-10 -top-10 text-[200px] leading-none font-black opacity-[0.03] dark:opacity-5 select-none pointer-events-none font-poppins text-foreground group-hover:scale-110 transition-transform duration-700">♛</div>
+            
+            <AnimeTextReveal text="About ANCA" className="text-3xl md:text-4xl font-black font-poppins mb-4 text-gradient" />
+            <p className="text-foreground/80 text-base md:text-lg leading-relaxed mb-8 max-w-xl font-medium">
+              The Andaman & Nicobar Chess Association (ANCA) is the official governing body affiliated to AICF and FIDE.
+              We promote chess across all islands since 2005 through premium tournaments, professional training, and unparalleled talent development.
+            </p>
+            <Link href="/about" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-secondary hover:text-primary transition-colors w-fit group/link">
+              Read Our Story <ChevronRight className="h-4 w-4 group-hover/link:translate-x-1 transition-transform" />
+            </Link>
+          </ScrollReveal>
 
-            {/* Quick Links */}
-            <GSAPReveal delay={0.2} from="right">
-              <div className="bg-card border border-border rounded-md shadow-sm p-5">
-                <h3 className="font-poppins font-bold text-primary text-sm uppercase tracking-wider border-b border-border pb-2 mb-4">Quick Links</h3>
-                <ul className="space-y-1">
-                  {quickLinks.map((link) => {
-                    const Icon = link.icon;
-                    return (
-                      <li key={link.label}>
-                        <Link
-                          href={link.href}
-                          className="flex items-center gap-2 text-sm py-2 px-2 hover:bg-muted rounded transition-colors text-muted-foreground hover:text-primary group"
-                        >
-                          <Icon className="h-4 w-4 shrink-0 text-secondary group-hover:text-primary transition-colors" />
-                          <span className="flex-1">{link.label}</span>
-                          <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </GSAPReveal>
-
-            {/* President's Message */}
-            <GSAPReveal delay={0.3} from="right">
-              <div className="bg-card border border-border rounded-md shadow-sm p-5">
-                <h3 className="font-poppins font-bold text-primary text-sm uppercase tracking-wider border-b border-border pb-2 mb-4">President&apos;s Message</h3>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="h-12 w-12 rounded-full bg-primary text-primary-foreground font-black text-xl flex items-center justify-center shrink-0">P</div>
-                  <div>
-                    <div className="font-bold text-foreground text-sm">President, ANCA</div>
-                    <div className="text-xs text-muted-foreground">Andaman &amp; Nicobar Islands</div>
+          {/* Upcoming Events - Wide Block */}
+          <ScrollReveal delay={0.3} direction="left" className="lg:col-span-2 glass-panel rounded-3xl p-8 flex flex-col hover:border-primary/30 transition-colors">
+            <div className="flex items-center justify-between mb-6">
+              <AnimeTextReveal text="Upcoming Events" className="text-xl font-poppins font-bold text-primary uppercase tracking-wider" />
+              <Link href="/tournaments" className="text-sm text-secondary font-semibold flex items-center gap-1 hover:gap-2 transition-all">
+                 Calendar <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid gap-4 flex-1">
+              {upcomingEvents.slice(0,2).map((event) => (
+                <div key={event.name} className="flex items-center gap-4 p-4 rounded-2xl bg-muted/50 hover:bg-muted transition-colors border border-border/50 group/event cursor-pointer">
+                  <div className="h-12 w-12 rounded-full bg-secondary/10 group-hover/event:bg-secondary/20 transition-colors flex items-center justify-center shrink-0">
+                    <Trophy className="h-5 w-5 text-secondary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-foreground text-sm md:text-base truncate">{event.name}</h3>
+                    <p className="text-xs md:text-sm text-muted-foreground mt-0.5">{event.date} · {event.venue}</p>
+                  </div>
+                  <div className="hidden sm:block text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-3 py-1.5 rounded-md">
+                    {event.status}
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed italic">
-                  &ldquo;Chess is not just a game — it is a discipline that builds the mind of our future generations. Our commitment remains unwavering.&rdquo;
-                </p>
-              </div>
-            </GSAPReveal>
+              ))}
+            </div>
+          </ScrollReveal>
 
-            {/* Contact sidebar */}
-            <GSAPReveal delay={0.4} from="right">
-              <div className="bg-primary text-primary-foreground rounded-md p-5 shadow-md">
-                <h3 className="font-poppins font-bold text-sm uppercase tracking-wider border-b border-primary-foreground/20 pb-2 mb-4">Contact Us</h3>
-                <ul className="space-y-3 text-sm text-primary-foreground/80">
-                  <li className="flex items-center gap-2.5"><MapPin className="h-4 w-4 text-secondary shrink-0" />O/o ANCA, Port Blair - 744101</li>
-                  <li className="flex items-center gap-2.5"><Mail className="h-4 w-4 text-secondary shrink-0" />info@ancachess.in</li>
-                  <li className="flex items-center gap-2.5"><Calendar className="h-4 w-4 text-secondary shrink-0" />Mon–Fri: 10AM – 5PM</li>
-                </ul>
-                <Link href="/contact" className="mt-4 block text-center text-xs font-bold uppercase tracking-widest border border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground px-4 py-2 rounded transition-colors">
-                  Send a Message
-                </Link>
-              </div>
-            </GSAPReveal>
+          {/* Quick Links Grid */}
+          <ScrollReveal delay={0.4} direction="up" className="lg:col-span-2 glass-panel rounded-3xl p-8">
+            <h3 className="font-poppins font-bold text-primary text-sm uppercase tracking-wider mb-6">Portal Access</h3>
+            <div className="grid grid-cols-2 gap-4">
+              {quickLinks.slice(0,4).map((link) => {
+                const Icon = link.icon;
+                return (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="flex flex-col items-center text-center gap-3 p-5 rounded-2xl bg-background/50 border border-border/40 hover:border-secondary hover:shadow-md transition-all group/quick"
+                  >
+                    <Icon className="h-6 w-6 text-primary group-hover/quick:text-secondary group-hover/quick:scale-110 transition-all" />
+                    <span className="text-xs md:text-sm font-bold text-foreground">{link.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </ScrollReveal>
 
-            {/* GSAP Scroll marquee of associations */}
-            <ScrollReveal delay={0.5}>
-              <div className="bg-card border border-border rounded-md shadow-sm p-5">
-                <h3 className="font-poppins font-bold text-primary text-sm uppercase tracking-wider border-b border-border pb-2 mb-4">Affiliated Bodies</h3>
-                <div className="flex gap-4 flex-wrap">
-                  {["AICF", "FIDE", "SAI", "MYAS"].map((org) => (
-                    <span key={org} className="px-3 py-1.5 border border-border text-xs font-bold text-muted-foreground rounded-sm hover:border-primary hover:text-primary transition-colors">
-                      {org}
+          {/* Announcements - Wide bottom block */}
+          <ScrollReveal delay={0.5} direction="up" className="lg:col-span-2 glass-panel rounded-3xl p-8 max-h-[400px] overflow-hidden flex flex-col hover:border-primary/30 transition-colors">
+            <div className="flex items-center justify-between mb-6">
+              <AnimeTextReveal text="Announcements" className="text-xl font-poppins font-bold text-primary uppercase tracking-wider" />
+              <Link href="/news" className="text-sm text-secondary font-semibold flex items-center gap-1 hover:gap-2 transition-all">
+                All News <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="flex flex-col gap-3 overflow-y-auto pr-2 scrollbar-thin">
+              {newsItems.map((item) => (
+                <div className="p-4 rounded-2xl border border-border/50 hover:bg-muted/40 transition-colors flex flex-col gap-2 cursor-pointer group/news" key={item.title}>
+                  <div className="flex items-center justify-between">
+                    <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-sm ${item.tagColor}`}>
+                      {item.tag}
                     </span>
-                  ))}
+                    <span className="text-[10px] md:text-xs font-bold text-muted-foreground">{item.date}</span>
+                  </div>
+                  <p className="font-semibold text-foreground text-sm md:text-base leading-snug group-hover/news:text-primary transition-colors">{item.title}</p>
                 </div>
-              </div>
-            </ScrollReveal>
+              ))}
+            </div>
+          </ScrollReveal>
 
-            {/* Interactive Mini Chess Game */}
-            <GSAPReveal delay={0.6} from="fade">
-              <ChessPuzzleDisplay
-                title="Play Mini Chess"
-                description="Click a piece to select it, then click to move. White moves first!"
-              />
-            </GSAPReveal>
-          </div>
+          {/* Contact & Affiliations - Col 2 */}
+          <ScrollReveal delay={0.6} direction="up" className="lg:col-span-2 glass-panel-heavy rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden">
+             <div className="absolute inset-0 bg-chess-pattern opacity-[0.02] pointer-events-none" />
+             <div className="relative z-10">
+                <h3 className="font-poppins font-bold text-primary text-sm uppercase tracking-wider mb-6">Connect With Us</h3>
+                <ul className="space-y-4 text-sm font-medium text-foreground/80 mb-8">
+                  <li className="flex items-center gap-3"><div className="p-2.5 rounded-full bg-primary/10 text-primary"><MapPin className="h-4 w-4" /></div> Secretariat, Port Blair - 744101</li>
+                  <li className="flex items-center gap-3"><div className="p-2.5 rounded-full bg-primary/10 text-primary"><Mail className="h-4 w-4" /></div> info@ancachess.in</li>
+                </ul>
+                <Link href="/contact" className="w-full text-center block text-sm font-bold uppercase tracking-widest border-2 border-secondary text-secondary hover:bg-secondary hover:text-background px-6 py-3.5 rounded-xl transition-all shadow-[0_0_15px_rgba(var(--secondary),0.1)] hover:shadow-[0_0_20px_rgba(var(--secondary),0.3)]">
+                  Contact Support
+                </Link>
+                
+                <div className="mt-8 pt-6 border-t border-border/50">
+                   <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mb-3">Recognised By</p>
+                   <div className="flex gap-2 flex-wrap">
+                    {["AICF", "FIDE", "Sports Authority of India"].map((org) => (
+                      <span key={org} className="px-3 py-1.5 bg-background border border-border/60 text-[10px] font-black uppercase tracking-wider text-foreground rounded-md hover:border-secondary transition-colors cursor-default">
+                        {org}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+             </div>
+          </ScrollReveal>
+
         </div>
       </section>
     </div>
