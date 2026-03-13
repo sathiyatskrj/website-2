@@ -1,40 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
 import { ChevronRight, Image as ImageIcon } from "lucide-react";
-import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { format, parseISO } from "date-fns";
 import { mockGallery } from "@/lib/mockData";
 
-interface GalleryItem {
-  id: string;
-  album: string;
-  image_url: string;
-  date: string | null;
-}
-
 export default function GalleryPage() {
-  const [images, setImages] = useState<GalleryItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchGallery() {
-      const supabase = getSupabaseBrowserClient();
-      const { data } = await supabase
-        .from("gallery")
-        .select("*")
-        .order("date", { ascending: false });
-
-      if (data && data.length > 0) {
-        setImages(data);
-      } else {
-        setImages(mockGallery);
-      }
-      setIsLoading(false);
-    }
-    fetchGallery();
-  }, []);
+  const images = mockGallery;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -57,11 +28,7 @@ export default function GalleryPage() {
 
       <section className="py-12 bg-background flex-1">
         <div className="container mx-auto px-4">
-          {isLoading ? (
-            <div className="flex justify-center items-center h-48">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            </div>
-          ) : images.length === 0 ? (
+          {images.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground bg-card border border-border rounded-xl">
               No photos have been uploaded to the gallery yet.
             </div>

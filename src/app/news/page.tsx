@@ -1,43 +1,12 @@
 "use client";
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { Calendar, FileText, Download, ChevronRight, Newspaper } from 'lucide-react';
-import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { format, parseISO } from 'date-fns';
 import { mockNews } from '@/lib/mockData';
 
-interface NewsItem {
-  id: string;
-  title: string;
-  slug: string;
-  content: string;
-  image: string | null;
-  author: string | null;
-  published_date: string;
-}
-
 export default function NewsPage() {
-  const [news, setNews] = useState<NewsItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchNews() {
-      const supabase = getSupabaseBrowserClient();
-      const { data } = await supabase
-        .from("news")
-        .select("*")
-        .order("published_date", { ascending: false });
-
-      if (data && data.length > 0) {
-        setNews(data);
-      } else {
-        setNews(mockNews as any);
-      }
-      setIsLoading(false);
-    }
-    fetchNews();
-  }, []);
+  const news = mockNews;
 
   return (
     <div className="flex flex-col w-full min-h-screen">
@@ -64,11 +33,7 @@ export default function NewsPage() {
                 <span className="text-primary-foreground/70">{news.length} Items</span>
               </div>
 
-              {isLoading ? (
-                <div className="flex justify-center items-center h-48">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                </div>
-              ) : news.length === 0 ? (
+              {news.length === 0 ? (
                 <div className="text-center py-12 text-muted-foreground">
                   No news articles published yet.
                 </div>

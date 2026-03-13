@@ -38,6 +38,7 @@ const CountUp = dynamic(
 
 // We keep ChessPuzzleDisplay for later or other parts.
 import { ChessPuzzleDisplay } from "@/components/games/MiniChessBoard";
+import { PythonNerdTerminal } from "@/components/animations/PythonNerdTerminal";
 
 // (Skipping unchanging top constants ... keeping original constants intact)
 
@@ -147,27 +148,22 @@ export default function HomePage() {
             </div>
           </ScrollReveal>
 
-          {/* Quick Links Grid */}
-          <ScrollReveal delay={0.4} direction="up" className="lg:col-span-2 glass-panel rounded-3xl p-8">
-            <h3 className="font-poppins font-bold text-primary text-sm uppercase tracking-wider mb-6">Portal Access</h3>
-            <div className="grid grid-cols-2 gap-4">
-              {quickLinks.slice(0,4).map((link) => {
-                const Icon = link.icon;
-                return (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="flex flex-col items-center text-center gap-3 p-5 rounded-2xl bg-background/50 border border-border/40 hover:border-secondary hover:shadow-md transition-all group/quick"
-                  >
-                    <Icon className="h-6 w-6 text-primary group-hover/quick:text-secondary group-hover/quick:scale-110 transition-all" />
-                    <span className="text-xs md:text-sm font-bold text-foreground">{link.label}</span>
-                  </Link>
-                );
-              })}
-            </div>
+          {/* Interactive Chess Widget - new bento block */}
+          <ScrollReveal delay={0.35} direction="right" className="lg:col-span-2 glass-panel rounded-3xl p-6 hover:border-primary/30 transition-colors flex flex-col justify-center items-center relative overflow-hidden">
+             <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-amber-400/5 rounded-full blur-[40px] pointer-events-none" />
+             <div className="w-full max-w-[320px]">
+               <ChessPuzzleDisplay title="Playable Demo" description="Interact with the board directly" />
+             </div>
           </ScrollReveal>
 
-          {/* Announcements - Wide bottom block */}
+          {/* Python Script Terminal - new bento block */}
+          <ScrollReveal delay={0.45} direction="left" className="lg:col-span-2 rounded-3xl p-1 bg-gradient-to-br from-gray-800 to-black shadow-2xl overflow-hidden hover:scale-[1.01] transition-transform duration-500">
+             <div className="w-full h-full">
+               <PythonNerdTerminal />
+             </div>
+          </ScrollReveal>
+
+          {/* Support block - previously Announcements */}
           <ScrollReveal delay={0.5} direction="up" className="lg:col-span-2 glass-panel rounded-3xl p-8 max-h-[400px] overflow-hidden flex flex-col hover:border-primary/30 transition-colors">
             <div className="flex items-center justify-between mb-6">
               <AnimeTextReveal text="Announcements" className="text-xl font-poppins font-bold text-primary uppercase tracking-wider" />

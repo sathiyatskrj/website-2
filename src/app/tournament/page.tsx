@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import * as React from "react";
 import { Suspense } from "react";
 
-import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+import { mockTournaments } from "@/lib/mockData";
 
 type Tournament = {
   id: string;
@@ -32,29 +32,31 @@ function TournamentContent() {
   const [tournament, setTournament] = React.useState<Tournament | null>(null);
 
   React.useEffect(() => {
-    async function run() {
+    // Simulate loading to prevent harsh flash and hydration mismatches
+    setLoading(true);
+    
+    // Simulate network delay
+    const timer = setTimeout(() => {
       if (!slug) {
         setTournament(null);
         setLoading(false);
         return;
       }
 
-      try {
-        const supabase = getSupabaseBrowserClient();
-        const { data, error } = await supabase
-          .from("tournaments")
-          .select("*")
-          .eq("slug", slug)
-          .maybeSingle();
-        if (error) throw error;
-        setTournament((data as Tournament) ?? null);
-      } catch (e) {
-        setError(e instanceof Error ? e.message : "Failed to load tournament.");
-      } finally {
-        setLoading(false);
+      const t = mockTournaments.find(t => 
+        t.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "") === slug || 
+        t.id === slug
+      );
+
+      if (t) {
+        setTournament(t as any);
+      } else {
+        setError("Failed to load tournament.");
       }
-    }
-    run();
+      setLoading(false);
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, [slug]);
 
   if (!slug) {

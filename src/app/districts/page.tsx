@@ -1,101 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { ChevronRight, MapPin, Users, Award, BarChart3, Trophy, ChevronDown } from "lucide-react";
-import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { mockDistrictStats } from "@/lib/mockData";
 
-interface Player {
-  id: string;
-  name: string;
-  rating: number | null;
-  district: string | null;
-  title: string | null;
-}
-
-interface DistrictStat {
-  district: string;
-  totalPlayers: number;
-  averageRating: number;
-  titledPlayers: number;
-  highestRating: number;
-  topPlayers: Player[];
-}
-
 export default function DistrictDashboardsPage() {
-  const [stats, setStats] = useState<DistrictStat[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const stats = mockDistrictStats;
   const [expandedDistrict, setExpandedDistrict] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function fetchAndCalculateStats() {
-      const supabase = getSupabaseBrowserClient();
-      const { data: players } = await supabase
-        .from("players")
-        .select("id, name, rating, district, title")
-        // @ts-ignore
-        .order("rating", { ascending: false, nullsFirst: false });
-
-      if (players && players.length > 0) {
-        // Group by district
-        const grouped = players.reduce((acc, player) => {
-          const d = player.district || "Unassigned";
-          if (!acc[d]) {
-            acc[d] = {
-              district: d,
-              totalPlayers: 0,
-              totalRating: 0,
-              ratedPlayers: 0,
-              titledPlayers: 0,
-              highestRating: 0,
-              topPlayers: [],
-            };
-          }
-          
-          acc[d].totalPlayers += 1;
-          
-          if (player.rating) {
-            acc[d].totalRating += player.rating;
-            acc[d].ratedPlayers += 1;
-            if (player.rating > acc[d].highestRating) {
-                acc[d].highestRating = player.rating;
-            }
-          }
-          
-          if (player.title) {
-              acc[d].titledPlayers += 1;
-          }
-          
-          // Store all players for now, will slice later
-          acc[d].topPlayers.push(player as Player);
-          
-          return acc;
-        }, {} as Record<string, any>);
-
-        // Process and format stats
-        const processedStats: DistrictStat[] = Object.values(grouped).map((g: any) => ({
-          district: g.district,
-          totalPlayers: g.totalPlayers,
-          averageRating: g.ratedPlayers > 0 ? Math.round(g.totalRating / g.ratedPlayers) : 0,
-          titledPlayers: g.titledPlayers,
-          highestRating: g.highestRating,
-          // Since query was already ordered by rating, filtering top 5 is just slice
-          topPlayers: g.topPlayers.filter((p: Player) => p.rating !== null).slice(0, 5),
-        }));
-
-        // Sort by total players descending to highlight active districts
-        processedStats.sort((a, b) => b.totalPlayers - a.totalPlayers);
-
-        setStats(processedStats);
-      } else {
-        // Use mock data when no Supabase data is available
-        setStats(mockDistrictStats);
-      }
-      setIsLoading(false);
-    }
-    fetchAndCalculateStats();
-  }, []);
 
   // Calculate global max for progress bars
   const maxPlayers = Math.max(...stats.map(s => s.totalPlayers), 1);
@@ -123,11 +35,7 @@ export default function DistrictDashboardsPage() {
 
       {/* Main Content */}
       <section className="py-12 container mx-auto px-4 flex-1">
-        {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-          </div>
-        ) : stats.length === 0 ? (
+        {stats.length === 0 ? (
           <div className="text-center py-16 bg-card border border-border shadow-sm rounded-xl">
             <BarChart3 className="h-16 w-16 mx-auto text-muted-foreground mb-4 opacity-50" />
             <h3 className="text-xl font-bold text-foreground">No Analytics Available</h3>

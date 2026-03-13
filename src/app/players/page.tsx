@@ -3,17 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Search, Trophy, Users, ChevronRight } from "lucide-react";
-import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { mockPlayers } from "@/lib/mockData";
-
-interface Player {
-  id: string;
-  name: string;
-  fide_id: string | null;
-  rating: number | null;
-  district: string | null;
-  title: string | null;
-}
 
 const TITLE_COLORS: Record<string, string> = {
   GM: "bg-yellow-100 text-yellow-800 border border-yellow-200",
@@ -27,30 +17,10 @@ const TITLE_COLORS: Record<string, string> = {
 };
 
 export default function PlayersPage() {
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const players = mockPlayers;
   const [searchQuery, setSearchQuery] = useState("");
   const [districtFilter, setDistrictFilter] = useState("All Districts");
   const [titleFilter, setTitleFilter] = useState("All Titles");
-
-  useEffect(() => {
-    async function fetchPlayers() {
-      const supabase = getSupabaseBrowserClient();
-      const { data, error } = await supabase
-        .from("players")
-        .select("id, name, fide_id, rating, district, title")
-        // @ts-ignore
-        .order("rating", { ascending: false, nullsFirst: false });
-
-      if (data && data.length > 0) {
-        setPlayers(data);
-      } else {
-        setPlayers(mockPlayers);
-      }
-      setIsLoading(false);
-    }
-    fetchPlayers();
-  }, []);
 
   const filteredPlayers = players.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -122,11 +92,7 @@ export default function PlayersPage() {
             <div className="col-span-2">District</div>
           </div>
 
-          {isLoading ? (
-            <div className="flex justify-center items-center h-48">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            </div>
-          ) : filteredPlayers.length === 0 ? (
+          {filteredPlayers.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
               No players found matching your search.
             </div>

@@ -4,7 +4,6 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { Download, Users, MapPin, IndianRupee, Trophy, Calendar, ChevronRight } from "lucide-react";
-import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { format, isBefore, isAfter, parseISO } from "date-fns";
 import { mockTournaments } from "@/lib/mockData";
 
@@ -18,18 +17,6 @@ const StaggerList = dynamic(
   { ssr: false }
 );
 
-interface Tournament {
-  id: string;
-  name: string;
-  location: string | null;
-  start_date: string | null;
-  end_date: string | null;
-  category: string | null;
-  registration_link: string | null;
-  results_link: string | null;
-  organizer: string | null;
-}
-
 const STATUS_STYLES: Record<string, string> = {
   Upcoming: "bg-green-100 text-green-800 border-green-200",
   Ongoing: "bg-blue-100 text-blue-800 border-blue-200",
@@ -37,27 +24,8 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 export default function TournamentsPage() {
-  const [tournaments, setTournaments] = useState<Tournament[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const tournaments = mockTournaments;
   const [filter, setFilter] = useState("All");
-
-  useEffect(() => {
-    async function fetchTournaments() {
-      const supabase = getSupabaseBrowserClient();
-      const { data } = await supabase
-        .from("tournaments")
-        .select("*")
-        .order("start_date", { ascending: false });
-
-      if (data && data.length > 0) {
-        setTournaments(data);
-      } else {
-        setTournaments(mockTournaments as any);
-      }
-      setIsLoading(false);
-    }
-    fetchTournaments();
-  }, []);
 
   const getStatus = (start: string | null, end: string | null) => {
     if (!start) return "Upcoming";
@@ -137,12 +105,7 @@ export default function TournamentsPage() {
                <div className="col-span-2 text-right text-primary">Action</div>
              </div>
 
-             {isLoading ? (
-               <div className="flex justify-center items-center h-64 flex-col gap-4">
-                 <div className="h-12 w-12 border-4 border-primary border-t-transparent animate-spin rounded-full shadow-lg"></div>
-                 <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Loading Events...</p>
-               </div>
-             ) : filteredTournaments.length === 0 ? (
+             {filteredTournaments.length === 0 ? (
                <div className="text-center py-20 px-4">
                  <Trophy className="h-16 w-16 text-muted-foreground/30 mx-auto mb-4" />
                  <p className="text-lg font-bold text-foreground">No tournaments found</p>

@@ -1,41 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Download, FileText, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { format, parseISO } from "date-fns";
 import { mockDownloads } from "@/lib/mockData";
 
-interface DownloadItem {
-  id: string;
-  title: string;
-  category: string;
-  file_url: string;
-  uploaded_at: string;
-}
-
 export default function DownloadsPage() {
-  const [documents, setDocuments] = useState<DownloadItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchDocs() {
-      const supabase = getSupabaseBrowserClient();
-      const { data } = await supabase
-        .from("downloads")
-        .select("*")
-        .order("uploaded_at", { ascending: false });
-
-      if (data && data.length > 0) {
-        setDocuments(data);
-      } else {
-        setDocuments(mockDownloads);
-      }
-      setIsLoading(false);
-    }
-    fetchDocs();
-  }, []);
+  const documents = mockDownloads;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -57,11 +28,7 @@ export default function DownloadsPage() {
       <section className="py-12 bg-background flex-1">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden min-h-[300px]">
-            {isLoading ? (
-              <div className="flex justify-center items-center h-48">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-              </div>
-            ) : documents.length === 0 ? (
+            {documents.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
                 No documents currently available for download.
               </div>

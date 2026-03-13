@@ -50,19 +50,18 @@ function RegistrationFormContent() {
         return;
       }
 
-      const supabase = getSupabaseBrowserClient();
-      const { data: t, error: tErr } = await supabase
-        .from("tournaments")
-        .select("id, slug")
-        .eq("slug", slug)
-        .maybeSingle();
-      if (tErr) throw tErr;
-      if (!t?.id) {
+      const t = mockTournaments.find(m => 
+        m.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "") === slug || 
+        m.id === slug
+      );
+
+      if (!t) {
         setError("name", { message: "Tournament not found." });
         return;
       }
 
-      const { error } = await supabase.from("tournament_registrations").insert({
+      // Instead of an actual insert since there's no Supabase backend anymore:
+      console.log("Mock Registration payload", {
         tournament_id: t.id,
         name: values.name,
         dob: values.dob || null,
@@ -77,7 +76,9 @@ function RegistrationFormContent() {
         payment_status: "pending",
         payment_reference: values.payment_reference || null,
       });
-      if (error) throw error;
+
+      // Simulate network wait
+      await new Promise(resolve => setTimeout(resolve, 600));
 
       router.replace(`/tournament?slug=${encodeURIComponent(slug)}&registered=1`);
     } catch (e) {

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import FramerChessBackground from "@/components/animations/FramerChessBackground";
+import CanvasChessBackground from "@/components/animations/CanvasChessBackground";
 import { HeroTypewriter } from "@/components/animations/TypewriterText";
 
 const slides = [
@@ -66,7 +66,7 @@ export function HeroCarousel() {
   return (
     <div className="relative w-full h-[380px] md:h-[500px] lg:h-[620px] overflow-hidden group">
       
-      <FramerChessBackground />
+      <CanvasChessBackground />
 
       <AnimatePresence initial={false} custom={direction} mode="wait">
         <motion.div
