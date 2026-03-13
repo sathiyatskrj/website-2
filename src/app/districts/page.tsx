@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronRight, MapPin, Users, Award, BarChart3, Trophy, ChevronDown } from "lucide-react";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+import { mockDistrictStats } from "@/lib/mockData";
 
 interface Player {
   id: string;
@@ -36,7 +37,7 @@ export default function DistrictDashboardsPage() {
         // @ts-ignore
         .order("rating", { ascending: false, nullsFirst: false });
 
-      if (players) {
+      if (players && players.length > 0) {
         // Group by district
         const grouped = players.reduce((acc, player) => {
           const d = player.district || "Unassigned";
@@ -87,6 +88,9 @@ export default function DistrictDashboardsPage() {
         processedStats.sort((a, b) => b.totalPlayers - a.totalPlayers);
 
         setStats(processedStats);
+      } else {
+        // Use mock data when no Supabase data is available
+        setStats(mockDistrictStats);
       }
       setIsLoading(false);
     }

@@ -26,10 +26,12 @@ const StaggerList = dynamic(
 
 export default function AboutPage() {
   const committee = [
-    { name: "President (Name TBD)", role: "President", initials: "P" },
-    { name: "Vice President (Name TBD)", role: "Vice President", initials: "VP" },
-    { name: "Secretary General", role: "Secretary", initials: "SG" },
-    { name: "Treasurer", role: "Treasurer", initials: "TR" },
+    { name: "Dr. S. Ramachandran", role: "President", initials: "SR" },
+    { name: "Shri. K. Venkatesh", role: "Vice President", initials: "KV" },
+    { name: "Shri. R. Gopalan", role: "Secretary General", initials: "RG" },
+    { name: "Smt. Meera Devi", role: "Treasurer", initials: "MD" },
+    { name: "FM Arjun Menon", role: "Technical Director", initials: "AM" },
+    { name: "D. Prakash Rao", role: "Joint Secretary", initials: "PR" },
   ];
 
   return (

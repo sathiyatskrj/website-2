@@ -256,38 +256,39 @@ function RegistrationFormContent() {
         </form>
 
         <aside className="rounded-2xl border border-border bg-card p-6">
-          <div className="text-sm font-medium">Payment</div>
+          <div className="text-sm font-medium">Payment Methods</div>
           <div className="mt-3 space-y-3 text-sm text-muted-foreground">
-            {upiVpa ? (
-              <div className="rounded-xl border border-border bg-background p-4">
-                <div className="text-xs font-medium text-foreground">
-                  UPI (VPA)
-                </div>
-                <div className="mt-1">{upiVpa}</div>
+            {/* UPI */}
+            <div className="rounded-xl border border-border bg-background p-4">
+              <div className="text-xs font-medium text-foreground">
+                UPI Payment
               </div>
-            ) : null}
-            {razorpayLink ? (
-              <a
-                className="block rounded-xl border border-border bg-background p-4 hover:bg-muted transition-colors"
-                href={razorpayLink}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <div className="text-xs font-medium text-foreground">
-                  Razorpay payment link
-                </div>
-                <div className="mt-1 break-all">{razorpayLink}</div>
-              </a>
-            ) : (
-              <div className="rounded-xl border border-border bg-background p-4">
-                <div className="text-xs font-medium text-foreground">
-                  Payment link not configured
-                </div>
-                <div className="mt-1">
-                  Set env vars to show UPI / Razorpay payment link.
-                </div>
+              <div className="mt-1 text-xs text-muted-foreground">Pay via GPay / PhonePe / Paytm</div>
+              <div className="mt-2 bg-primary/5 border border-primary/20 rounded-lg px-3 py-2">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">VPA</p>
+                <p className="font-mono font-bold text-primary text-sm">{upiVpa || "anca.chess@sbi"}</p>
               </div>
-            )}
+              <p className="text-xs text-muted-foreground mt-2">Enter the UTR number in the payment reference field after paying.</p>
+            </div>
+            {/* Card */}
+            <div className="rounded-xl border border-border bg-background p-4">
+              <div className="text-xs font-medium text-foreground">
+                Card / Razorpay
+              </div>
+              <div className="mt-1 text-xs text-muted-foreground">Visa / Mastercard / RuPay accepted</div>
+              {razorpayLink ? (
+                <a
+                  className="mt-2 block rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-bold text-primary-foreground hover:bg-primary/90 transition-colors"
+                  href={razorpayLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Pay via Razorpay →
+                </a>
+              ) : (
+                <p className="mt-2 text-xs text-muted-foreground italic">Card payment link will be available after admin setup.</p>
+              )}
+            </div>
             <div className="text-xs">
               Admin will verify payment and update status in the dashboard.
             </div>
