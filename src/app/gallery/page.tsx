@@ -3,6 +3,7 @@
 import { ChevronRight, Image as ImageIcon } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { mockGallery } from "@/lib/mockData";
+import Link from "next/link";
 
 export default function GalleryPage() {
   const images = mockGallery;
