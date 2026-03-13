@@ -56,7 +56,7 @@ export function AnimatedLink({ children, className = "" }: AnimatedLinkProps) {
   return (
     <span className={`relative inline-block group ${className}`}>
       {children}
-      <span className="absolute inset-x-0 bottom-0 h-0.5 bg-current transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
+      <span className="absolute inset-x-0 bottom-0 h-[2px] bg-secondary transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out z-[-1] opacity-70" />
     </span>
   );
 }
@@ -72,17 +72,16 @@ interface HoverCardProps {
 export function HoverCard({ children, className = "" }: HoverCardProps) {
   return (
     <motion.div
-      className={className}
+      className={`shadow-soft ${className}`}
       whileHover={{
-        y: -6,
+        y: -8,
         scale: 1.02,
-        boxShadow: "0 20px 40px -12px rgba(0,0,0,0.15)",
-        transition: { type: "spring", stiffness: 300, damping: 20 }
+        transition: { type: "spring", stiffness: 400, damping: 25 }
       }}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-5%" }}
-      transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>

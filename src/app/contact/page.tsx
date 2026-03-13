@@ -76,19 +76,19 @@ export default function ContactPage() {
               <ul className="space-y-5 text-sm">
                 <li className="flex gap-3">
                   <MapPin className="h-5 w-5 shrink-0 text-secondary mt-0.5" />
-                  <span>O/o The Secretary, ANCA<br/>Sports Complex, Port Blair<br/>Andaman &amp; Nicobar Islands - 744101</span>
+                  <span>#11, KM Road, Prem Nagar<br/>Near Electricity Site Office<br/>Port Blair, A &amp; N Islands - 744102</span>
                 </li>
                 <li className="flex gap-3 items-center">
                   <Phone className="h-4 w-4 shrink-0 text-secondary" />
-                  <a href="tel:+919999999999" className="hover:text-white">+91 99999 99999</a>
+                  <a href="tel:+919999999999" className="hover:text-white">Contact Secretariat</a>
                 </li>
                 <li className="flex gap-3 items-center">
                   <Mail className="h-4 w-4 shrink-0 text-secondary" />
-                  <a href="mailto:info@ancachess.in" className="hover:text-white">info@ancachess.in</a>
+                  <a href="mailto:anchessassociation@gmail.com" className="hover:text-white">anchessassociation@gmail.com</a>
                 </li>
                 <li className="flex gap-3 items-start">
                   <Clock className="h-4 w-4 shrink-0 text-secondary mt-0.5" />
-                  <span>Mon–Fri: 10:00 AM – 5:00 PM<br/>Sat: 10:00 AM – 1:00 PM</span>
+                  <span>3:00 PM to 07:00 PM</span>
                 </li>
               </ul>
             </div>

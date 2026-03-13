@@ -127,23 +127,23 @@ export default function HomePage() {
             <div className="flex items-center justify-between mb-6">
               <AnimeTextReveal text="Upcoming Events" className="text-xl font-poppins font-bold text-primary uppercase tracking-wider" />
               <Link href="/tournaments" className="text-sm text-secondary font-semibold flex items-center gap-1 hover:gap-2 transition-all">
-                 Calendar <ChevronRight className="h-4 w-4" />
+                 <AnimatedLink>Calendar</AnimatedLink> <ChevronRight className="h-4 w-4" />
               </Link>
             </div>
             <div className="grid gap-4 flex-1">
               {upcomingEvents.slice(0,2).map((event) => (
-                <div key={event.name} className="flex items-center gap-4 p-4 rounded-2xl bg-muted/50 hover:bg-muted transition-colors border border-border/50 group/event cursor-pointer">
+                <HoverCard key={event.name} className="flex items-center gap-4 p-4 rounded-2xl bg-muted/50 hover:bg-muted transition-colors border border-border/50 group/event cursor-pointer">
                   <div className="h-12 w-12 rounded-full bg-secondary/10 group-hover/event:bg-secondary/20 transition-colors flex items-center justify-center shrink-0">
                     <Trophy className="h-5 w-5 text-secondary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-foreground text-sm md:text-base truncate">{event.name}</h3>
+                    <h3 className="font-bold text-foreground text-sm md:text-base truncate group-hover/event:text-secondary transition-colors">{event.name}</h3>
                     <p className="text-xs md:text-sm text-muted-foreground mt-0.5">{event.date} · {event.venue}</p>
                   </div>
                   <div className="hidden sm:block text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-3 py-1.5 rounded-md">
                     {event.status}
                   </div>
-                </div>
+                </HoverCard>
               ))}
             </div>
           </ScrollReveal>
@@ -168,12 +168,12 @@ export default function HomePage() {
             <div className="flex items-center justify-between mb-6">
               <AnimeTextReveal text="Announcements" className="text-xl font-poppins font-bold text-primary uppercase tracking-wider" />
               <Link href="/news" className="text-sm text-secondary font-semibold flex items-center gap-1 hover:gap-2 transition-all">
-                All News <ChevronRight className="h-4 w-4" />
+                <AnimatedLink>All News</AnimatedLink> <ChevronRight className="h-4 w-4" />
               </Link>
             </div>
             <div className="flex flex-col gap-3 overflow-y-auto pr-2 scrollbar-thin">
               {newsItems.map((item) => (
-                <div className="p-4 rounded-2xl border border-border/50 hover:bg-muted/40 transition-colors flex flex-col gap-2 cursor-pointer group/news" key={item.title}>
+                <HoverCard key={item.title} className="p-4 rounded-2xl border border-border/50 hover:bg-muted/40 transition-colors flex flex-col gap-2 cursor-pointer group/news">
                   <div className="flex items-center justify-between">
                     <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-sm ${item.tagColor}`}>
                       {item.tag}
@@ -181,7 +181,7 @@ export default function HomePage() {
                     <span className="text-[10px] md:text-xs font-bold text-muted-foreground">{item.date}</span>
                   </div>
                   <p className="font-semibold text-foreground text-sm md:text-base leading-snug group-hover/news:text-primary transition-colors">{item.title}</p>
-                </div>
+                </HoverCard>
               ))}
             </div>
           </ScrollReveal>

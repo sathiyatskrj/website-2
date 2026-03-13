@@ -2,6 +2,7 @@
 
 import { Target, Crown, Users, FileText, Building, History, ChevronRight, MapPin } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 
 const ScrollReveal = dynamic(
@@ -26,12 +27,21 @@ const StaggerList = dynamic(
 
 export default function AboutPage() {
   const committee = [
-    { name: "Dr. S. Ramachandran", role: "President", initials: "SR" },
-    { name: "Shri. K. Venkatesh", role: "Vice President", initials: "KV" },
-    { name: "Shri. R. Gopalan", role: "Secretary General", initials: "RG" },
-    { name: "Smt. Meera Devi", role: "Treasurer", initials: "MD" },
-    { name: "FM Arjun Menon", role: "Technical Director", initials: "AM" },
-    { name: "D. Prakash Rao", role: "Joint Secretary", initials: "PR" },
+    { name: "Mr. C.S. Ashok", role: "President", initials: "CA", image: "/images/old_site/Ashok.jpg" },
+    { name: "Mr. Tanveer Singh", role: "Vice President", initials: "TS", image: "/images/old_site/Tanveersingh.jpg" },
+    { name: "Mr. H. Dinesh", role: "Vice President", initials: "HD", image: "/images/old_site/HDinesh.jpg" },
+    { name: "Mr. Sasi Kumar", role: "Vice President", initials: "SK", image: "/images/old_site/SasiKumar.jpg" },
+    { name: "Mr. K. Neelakantham", role: "Vice President", initials: "KN", image: "/images/old_site/KNeelakantham.jpg" },
+    { name: "Mr. B. Neelaiah", role: "General Secretary", initials: "BN", image: "/images/old_site/Neel.jpg" },
+    { name: "Mr. Sanjay Kumar", role: "Jt. Secretary", initials: "SK", image: "/images/old_site/SanjayKumar.jpg" },
+    { name: "Mrs. N.T. Suba Laxmi", role: "Treasurer", initials: "SL", image: "/images/old_site/Subalaxmi.jpg" },
+    { name: "Mr. B. Kodanda Rao", role: "Executive Member", initials: "KR", image: "/images/old_site/BKodandaRao.jpg" },
+    { name: "Mr. T. Rama Rao", role: "Executive Member", initials: "RR", image: "/images/old_site/TRamaRao.jpg" },
+    { name: "Mr. P. Anand rao", role: "Executive Member", initials: "AR", image: "/images/old_site/panandrao.jpg" },
+    { name: "Mr. K Gurumurthy", role: "Executive Member", initials: "KG", image: "/images/old_site/KGurumurthy.jpg" },
+    { name: "Mr. K. Seetha ram", role: "Executive Member", initials: "SR", image: "/images/old_site/KSeetharam.jpg" },
+    { name: "Mr. Sarat Menon", role: "Executive Member", initials: "SM", image: "/images/old_site/SaratMenon.jpeg" },
+    { name: "Mr. P. Nagendra", role: "Executive Member", initials: "PN", image: "/images/old_site/PNagendra.jpg" },
   ];
 
   return (
@@ -116,8 +126,11 @@ export default function AboutPage() {
               <StaggerList stagger={0.1} delay={0.2} className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {committee.map((member, i) => (
                   <HoverCard key={i} className="flex flex-col items-center text-center p-6 bg-background/40 hover:bg-background border border-border/50 hover:border-primary/30 rounded-2xl transition-all shadow-sm group">
-                    <div className="h-20 w-20 rounded-full bg-gradient-to-br from-primary to-primary/80 text-primary-foreground text-2xl font-black flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
-                      {member.initials}
+                    <div className="h-20 w-20 relative rounded-full bg-gradient-to-br from-primary to-primary/80 overflow-hidden text-primary-foreground text-2xl font-black flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                      {member.image ? (
+                        <Image src={member.image} alt={member.name} fill className="object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                      ) : null}
+                      <span className="relative z-0">{member.initials}</span>
                     </div>
                     <h3 className="font-bold text-foreground text-sm md:text-base leading-snug">{member.name}</h3>
                     <p className="text-xs text-secondary font-black mt-2 uppercase tracking-widest bg-secondary/10 px-3 py-1 rounded-full">{member.role}</p>

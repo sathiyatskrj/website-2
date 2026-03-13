@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -64,9 +64,12 @@ export function HeroCarousel() {
   const slide = slides[current];
 
   return (
-    <div className="relative w-full h-[380px] md:h-[500px] lg:h-[620px] overflow-hidden group">
+    <div className="relative w-full h-[480px] md:h-[600px] lg:h-[720px] overflow-hidden group">
       
       <CanvasChessBackground />
+      {/* Premium Glassmorphism Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-chess-pattern pointer-events-none z-0 mix-blend-overlay" />
 
       <AnimatePresence initial={false} custom={direction} mode="wait">
         <motion.div
@@ -76,65 +79,80 @@ export function HeroCarousel() {
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] }}
-          className={`absolute inset-0 bg-gradient-to-br ${slide.bg} pointer-events-none`}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className={`absolute inset-0 pointer-events-none z-10 flex mix-blend-luminosity opacity-40`}
         >
-          {/* Content */}
-          <div className="relative z-10 h-full flex items-center pointer-events-auto">
-            <div className="container mx-auto px-6 md:px-16 mt-8">
-              {/* Tag badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.4 }}
-              >
-                <span className={`inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em] border px-3 py-1 mb-5 bg-black/20 backdrop-blur-sm ${slide.tagColor}`}>
-                  <span className="text-base">♟</span> {slide.tag}
-                </span>
-              </motion.div>
+			    <div className={`w-full h-full bg-gradient-to-br ${slide.bg}`} />
+        </motion.div>
+      </AnimatePresence>
 
-              {/* Typewriter headline */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.3 }}
-                className="text-white text-3xl md:text-5xl lg:text-6xl font-black font-poppins mb-5 leading-tight drop-shadow-lg"
-              >
-                <HeroTypewriter
-                  prefix={slide.prefix}
-                  rotatingWords={slide.words}
-                  prefixClassName="text-white/95 mr-2"
-                  wordClassName="text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)]"
-                />
-              </motion.div>
-
-              {/* Subtitle */}
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-                className="text-white/80 text-base md:text-lg mb-8 max-w-xl font-medium drop-shadow-md"
-              >
-                {slide.subtitle}
-              </motion.p>
-
-              {/* CTA */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.65, duration: 0.4 }}
-                className="flex items-center gap-4"
-              >
-                <Link
-                  href={slide.link}
-                  className="inline-block relative overflow-hidden group/btn border-2 border-amber-400 bg-amber-400/10 backdrop-blur-sm text-amber-400 hover:text-[#0f172a] font-bold uppercase tracking-widest px-7 md:px-10 py-3 text-sm transition-all duration-300 shadow-[0_0_15px_rgba(251,191,36,0.2)] hover:shadow-[0_0_30px_rgba(251,191,36,0.6)]"
+      <AnimatePresence initial={false} custom={direction} mode="wait">
+        <motion.div
+           key={`content-${current}`}
+           custom={direction}
+           initial={{ opacity: 0, scale: 0.95 }}
+           animate={{ opacity: 1, scale: 1 }}
+           exit={{ opacity: 0, scale: 1.05 }}
+           transition={{ duration: 0.8, ease: "easeOut" }}
+           className="absolute inset-0 z-20 h-full flex items-center pointer-events-auto"
+        >
+            <div className="container mx-auto px-6 md:px-16 mt-12 md:mt-0">
+              <div className="max-w-3xl">
+                {/* Tag badge */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                  className="mb-6"
                 >
-                  <span className="relative z-10 flex items-center gap-2">{slide.cta} <ChevronRight className="h-4 w-4" /></span>
-                  <div className="absolute inset-0 bg-amber-400 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform origin-left duration-300 ease-out z-0"></div>
-                </Link>
-              </motion.div>
+                  <span className={`inline-flex items-center gap-2 text-[10px] md:text-xs font-black uppercase tracking-[0.25em] border-l-4 pl-3 py-1 ${slide.tagColor === 'text-amber-400 border-amber-400' ? 'border-secondary text-secondary' : 'border-primary text-primary'}`}>
+                    {slide.tag}
+                  </span>
+                </motion.div>
+
+                {/* Headline */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.6 }}
+                  className="text-foreground text-4xl md:text-6xl lg:text-7xl font-serif mb-6 leading-[1.1]"
+                >
+                  <HeroTypewriter
+                    prefix={slide.prefix}
+                    rotatingWords={slide.words}
+                    prefixClassName="text-foreground mr-3"
+                    wordClassName="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary"
+                  />
+                </motion.div>
+
+                {/* Subtitle */}
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  className="text-muted-foreground text-lg md:text-xl mb-10 max-w-2xl font-sans font-light leading-relaxed"
+                >
+                  {slide.subtitle}
+                </motion.p>
+
+                {/* CTA */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.6 }}
+                  className="flex items-center gap-6"
+                >
+                  <Link
+                    href={slide.link}
+                    className="relative overflow-hidden group/btn bg-primary text-primary-foreground font-sans font-semibold uppercase tracking-widest px-8 py-4 text-xs md:text-sm rounded-none transition-all shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_30px_var(--primary)]"
+                  >
+                    <span className="relative z-10 flex items-center gap-3">
+                      {slide.cta} <ChevronRight className="h-4 w-4 transform group-hover/btn:translate-x-1 transition-transform" />
+                    </span>
+                  </Link>
+                </motion.div>
+              </div>
             </div>
-          </div>
         </motion.div>
       </AnimatePresence>
 

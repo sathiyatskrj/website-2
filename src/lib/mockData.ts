@@ -1,76 +1,75 @@
-// ─── Mock News ───────────────────────────────────────────────────────
 export const mockNews = [
   {
     id: "news-1",
-    title: "45th A&N State Chess Championship 2026 — Registrations Now Open",
-    slug: "state-championship-2026-registrations",
-    content: "The 45th Andaman & Nicobar State Chess Championship will be held at the ANCA Sports Complex, Port Blair from 15–20 May 2026. All AICF-registered players are eligible to participate. Entry fee is ₹1,000 for Open and ₹500 for age-group categories. Last date for registration is 30 April 2026.",
-    image: null,
-    author: "ANCA Secretariat",
-    published_date: "2026-03-08T10:00:00Z"
+    title: "The ANCA's Chess Summer camp 2023 began today",
+    slug: "anca-chess-summer-camp-2023",
+    content: "The ANCA's Chess Summer camp 2023 began today the 1st May 2023 at Khalsa Public Sr. Sec. School, Gurudwara Lane, Port Blair.",
+    image: "/images/old_site/chessimage.jpg",
+    author: "ANCA Admin",
+    published_date: "2023-05-01T10:00:00Z"
   },
   {
     id: "news-2",
-    title: "AICF Revised Rating Rules Effective from April 2026",
-    slug: "aicf-revised-rating-rules-2026",
-    content: "The All India Chess Federation has released revised rating calculation rules for the 2026 season. Key changes include updated K-factor for players below 2100 and new bonus point criteria for rapid tournaments.",
-    image: null,
-    author: "AICF Updates",
-    published_date: "2026-03-05T14:30:00Z"
+    title: "2nd A & N State School Chess Championship 2022 concludes",
+    slug: "state-school-championship-2022-concludes",
+    content: "The 2nd A & N State School Chess Championship 2022 for school children was organised by Andaman Nicobar Chess Association. The tournament concluded with a prize distribution ceremony.",
+    image: "/images/old_site/1.jpeg",
+    author: "ANCA Admin",
+    published_date: "2022-12-30T14:30:00Z"
   },
   {
     id: "news-3",
-    title: "Andaman District Championship 2026 — Final Standings Published",
-    slug: "andaman-district-championship-2026-results",
-    content: "The Andaman District Championship 2026 concluded on 25 February. CM Rajiv Sharma secured first place with 8.5/9 points. Full standings and games are available on the results page.",
+    title: "Two Day Andaman & Nicobar State Open Selection C'ship concludes",
+    slug: "state-open-selection-2022",
+    content: "Andaman & Nicobar State Open Chess Selection Championship 2022 which began on 12-11-2022 at JNRM College concluded with prize distribution. Top four players will represent A&N Islands in MPL 59th Sr. National Chess C'ship to be held at New Delhi.",
     image: null,
     author: "Tournament Committee",
-    published_date: "2026-02-28T09:15:00Z"
+    published_date: "2022-11-13T09:15:00Z"
   },
   {
     id: "news-4",
-    title: "FIDE Arbiter Training Seminar — Seats Filling Fast",
-    slug: "fide-arbiter-seminar-2026",
-    content: "ANCA in collaboration with AICF is organizing a FIDE Arbiter Training Seminar from 10–12 March 2026. The seminar is mandatory for all practicing arbiters seeking license renewal. Limited seats available.",
-    image: null,
-    author: "Arbiters Commission",
-    published_date: "2026-02-15T11:00:00Z"
+    title: "Entries invited for A & N State Open Chess Selection Championship 2022",
+    slug: "entries-invited-state-open-2022",
+    content: "Andaman Nicobar Chess Association (ANCA) will be conducting A & N State Open Chess Selection Championship 2022. Entries are currently invited.",
+    image: "/images/old_site/chessimage.jpg",
+    author: "ANCA Secretariat",
+    published_date: "2022-10-26T11:00:00Z"
   },
   {
     id: "news-5",
-    title: "Young Priya Das Achieves WCM Title — A&N's Newest Titled Player",
-    slug: "priya-das-wcm-title",
-    content: "Priya Das, a 14-year-old prodigy from South Andaman, has been awarded the Woman Candidate Master (WCM) title by FIDE after her outstanding performance at the National Under-15 Girls Championship. She scored 8/9 and secured a medal.",
+    title: "Chess Sets distributed for promotion of chess game",
+    slug: "chess-sets-distributed",
+    content: "With an objective to promote the game of chess, Andaman Nicobar Chess Association (ANCA) has distributed chess sets to various schools and clubs.",
     image: null,
     author: "ANCA Media",
-    published_date: "2026-02-01T08:00:00Z"
+    published_date: "2022-10-24T08:00:00Z"
   },
   {
     id: "news-6",
-    title: "Commonwealth Chess Championship 2026 — Indian Contingent Announced",
-    slug: "commonwealth-chess-2026-contingent",
-    content: "The All India Chess Federation has announced the Indian contingent for the Commonwealth Chess Championship 2026 to be held in Sri Lanka. Two players from A&N Islands have been selected to represent in the age-group categories.",
+    title: "Maxwell A & N State Sub Junior (U-15) Chess Selection Championship 2022",
+    slug: "sub-junior-u15-2022",
+    content: "Maxwell A & N State Sub Junior (U-15) Chess Selection Championship 2022 was organised by Andaman Nicobar Chess Association. It concluded with a prize distribution ceremony.",
     image: null,
-    author: "AICF Updates",
-    published_date: "2026-01-20T16:00:00Z"
+    author: "ANCA Admin",
+    published_date: "2022-10-16T16:00:00Z"
   },
   {
     id: "news-7",
-    title: "ANCA Coaching Camp 2026 — Free Registration for Under-12 Players",
-    slug: "anca-coaching-camp-2026",
-    content: "ANCA is organizing a free 10-day intensive coaching camp for players rated below 1200 and Under-12 age group. The camp will feature sessions by FM Arjun Menon and NI Kavitha Rajan. Registration is open until 15 January 2026.",
+    title: "ANCA New Office cum Chess Centre inaugurated",
+    slug: "anca-new-office",
+    content: "It was a Historic day for Andaman & Nicobar Chess as for the first time any President of All India Chess Federation inaugurated the new office cum chess centre.",
     image: null,
-    author: "Coaching Committee",
-    published_date: "2026-01-05T10:00:00Z"
+    author: "ANCA Admin",
+    published_date: "2022-10-05T10:00:00Z"
   },
   {
     id: "news-8",
-    title: "Annual General Meeting — ANCA Elects New Executive Committee",
-    slug: "anca-agm-2025-new-committee",
-    content: "The Annual General Meeting of ANCA was held on 20 December 2025 at Port Blair. A new Executive Committee was elected for the 2026-2028 term. Key decisions regarding tournament calendar and player development programs were ratified.",
+    title: "1st Bambooflat Open Chess Tournament 2022 concluded",
+    slug: "1st-bambooflat-open-2022",
+    content: "1st Bambooflat Open Chess Tournament 2022 was organised by Bambooflat Chess Academy under the aegis of ANCA. The tournament successfully concluded.",
     image: null,
-    author: "ANCA Admin",
-    published_date: "2025-12-22T12:00:00Z"
+    author: "Bambooflat Chess Academy",
+    published_date: "2022-10-02T12:00:00Z"
   }
 ];
 
@@ -78,51 +77,51 @@ export const mockNews = [
 export const mockGallery = [
   {
     id: "gal-1",
-    album: "44th State Chess Championship 2025 — Prize Distribution",
-    image_url: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    date: "2025-12-15T00:00:00Z"
+    album: "2nd A & N State School Chess Championship 2022",
+    image_url: "/images/old_site/1.jpeg",
+    date: "2022-12-30T00:00:00Z"
   },
   {
     id: "gal-2",
-    album: "FIDE Arbiter Seminar 2025 — Group Photo",
-    image_url: "https://images.unsplash.com/photo-1586165368502-1bad197a6461?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    date: "2025-11-18T00:00:00Z"
+    album: "ANCA Chess Summer Camp",
+    image_url: "/images/old_site/chessimage.jpg",
+    date: "2023-05-01T00:00:00Z"
   },
   {
     id: "gal-3",
-    album: "National Youth Championship — A&N Delegation",
-    image_url: "https://images.unsplash.com/photo-1560174038-da43ac74f01b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    date: "2025-08-22T00:00:00Z"
+    album: "State Chess Tournament Highlights",
+    image_url: "/images/old_site/home_event33.jpg",
+    date: "2022-10-16T00:00:00Z"
   },
   {
     id: "gal-4",
-    album: "Grandmaster Simul Exhibition — Port Blair",
-    image_url: "https://images.unsplash.com/photo-1610631070868-f9000a6833cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    date: "2025-10-05T00:00:00Z"
+    album: "State Chess Tournament Highlights",
+    image_url: "/images/old_site/home_event35.jpg",
+    date: "2022-10-16T00:00:00Z"
   },
   {
     id: "gal-5",
-    album: "Junior Coaching Camp 2025 — On-ground Training",
-    image_url: "https://images.unsplash.com/photo-1580541832626-2a7131ee809f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    date: "2025-07-10T00:00:00Z"
+    album: "State Chess Tournament Highlights",
+    image_url: "/images/old_site/home_event43.jpg",
+    date: "2022-11-13T00:00:00Z"
   },
   {
     id: "gal-6",
-    album: "Nicobar District Rapid 2025 — Winners Ceremony",
-    image_url: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    date: "2025-06-02T00:00:00Z"
+    album: "State Chess Tournament Highlights",
+    image_url: "/images/old_site/home_event44.jpg",
+    date: "2022-11-13T00:00:00Z"
   },
   {
     id: "gal-7",
-    album: "Independence Day Chess Festival — Simultaneous Display",
-    image_url: "https://images.unsplash.com/photo-1528819622765-d6bcf132f793?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    date: "2025-08-15T00:00:00Z"
+    album: "State Chess Tournament Highlights",
+    image_url: "/images/old_site/home_event45.jpg",
+    date: "2022-11-13T00:00:00Z"
   },
   {
     id: "gal-8",
-    album: "ANCA Annual Awards Night 2025",
-    image_url: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    date: "2025-12-28T00:00:00Z"
+    album: "State Chess Tournament Highlights",
+    image_url: "/images/old_site/home_event46.jpg",
+    date: "2022-11-13T00:00:00Z"
   }
 ];
 
@@ -183,80 +182,80 @@ export const mockDownloads = [
 export const mockTournaments = [
   {
     id: "trn-1",
-    name: "45th A&N State Chess Championship 2026",
-    location: "ANCA Sports Complex, Port Blair",
-    start_date: "2026-05-15T00:00:00Z",
-    end_date: "2026-05-20T00:00:00Z",
-    category: "Open / U-19 / U-15 / U-11",
-    registration_link: "#",
+    name: "2nd A & N State School Chess Championship 2022",
+    location: "Port Blair",
+    start_date: "2022-12-28T00:00:00Z",
+    end_date: "2022-12-30T00:00:00Z",
+    category: "School Children",
+    registration_link: null,
     results_link: null,
     organizer: "ANCA"
   },
   {
     id: "trn-2",
-    name: "Commonwealth Chess Championship 2026-27",
-    location: "Kalutara, Sri Lanka",
-    start_date: "2026-05-26T00:00:00Z",
-    end_date: "2026-06-05T00:00:00Z",
-    category: "Open / Age Groups",
-    registration_link: "#",
+    name: "Andaman & Nicobar State Open Selection C'ship",
+    location: "JNRM College, Port Blair",
+    start_date: "2022-11-12T00:00:00Z",
+    end_date: "2022-11-13T00:00:00Z",
+    category: "Open",
+    registration_link: null,
     results_link: null,
-    organizer: "Commonwealth Chess Association"
+    organizer: "ANCA"
   },
   {
     id: "trn-3",
-    name: "Nicobar District Rapid Championship 2026",
-    location: "Car Nicobar Community Hall",
-    start_date: "2026-06-02T00:00:00Z",
-    end_date: "2026-06-02T00:00:00Z",
-    category: "Rapid Open",
-    registration_link: "#",
+    name: "Maxwell A & N State Sub Junior (U-15) Chess Selection",
+    location: "Port Blair",
+    start_date: "2022-10-15T00:00:00Z",
+    end_date: "2022-10-16T00:00:00Z",
+    category: "U-15",
+    registration_link: null,
     results_link: null,
-    organizer: "Nicobar District CA"
+    organizer: "ANCA"
   },
   {
     id: "trn-4",
-    name: "Junior Selection Trial for Nationals 2026",
-    location: "ANCA Headquarters, Port Blair",
-    start_date: "2026-06-20T00:00:00Z",
-    end_date: "2026-06-22T00:00:00Z",
-    category: "U-19 / U-15 / U-11 / U-9",
-    registration_link: "#",
+    name: "1st Bambooflat Open Chess Tournament 2022",
+    location: "Bambooflat",
+    start_date: "2022-10-01T00:00:00Z",
+    end_date: "2022-10-02T00:00:00Z",
+    category: "Open",
+    registration_link: null,
+    results_link: null,
+    organizer: "Bambooflat Chess Academy"
+  },
+  {
+    id: "trn-5",
+    name: "South Andaman District Chess Tournament 2022",
+    location: "South Andaman",
+    start_date: "2022-09-09T00:00:00Z",
+    end_date: "2022-09-10T00:00:00Z",
+    category: "District",
+    registration_link: null,
+    results_link: null,
+    organizer: "South Andaman Chess Association"
+  },
+  {
+    id: "trn-6",
+    name: "Port Blair Open Chess Tournament 2022",
+    location: "Port Blair",
+    start_date: "2022-08-13T00:00:00Z",
+    end_date: "2022-08-14T00:00:00Z",
+    category: "Open",
+    registration_link: null,
     results_link: null,
     organizer: "ANCA"
   },
   {
-    id: "trn-5",
-    name: "44th A&N State Chess Championship 2025",
-    location: "ANCA Sports Complex, Port Blair",
-    start_date: "2025-12-10T00:00:00Z",
-    end_date: "2025-12-15T00:00:00Z",
-    category: "Open / U-19 / U-15",
-    registration_link: null,
-    results_link: "#",
-    organizer: "ANCA"
-  },
-  {
-    id: "trn-6",
-    name: "1st Chola Chess International GM Open",
-    location: "Chennai, Tamil Nadu",
-    start_date: "2026-01-05T00:00:00Z",
-    end_date: "2026-01-12T00:00:00Z",
-    category: "Open GM",
-    registration_link: null,
-    results_link: "#",
-    organizer: "Tamil Nadu State Chess Association"
-  },
-  {
     id: "trn-7",
-    name: "National Junior Under-19 Chess Championship",
-    location: "Guwahati, Assam",
-    start_date: "2025-07-10T00:00:00Z",
-    end_date: "2025-07-18T00:00:00Z",
-    category: "U-19",
+    name: "A&N State Level U-15 School Chess Selection",
+    location: "Port Blair",
+    start_date: "2022-06-22T00:00:00Z",
+    end_date: "2022-06-23T00:00:00Z",
+    category: "U-15 School",
     registration_link: null,
-    results_link: "#",
-    organizer: "AICF"
+    results_link: null,
+    organizer: "ANCA"
   }
 ];
 
