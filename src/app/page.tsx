@@ -87,8 +87,10 @@ export default function HomePage() {
 
       {/* Modern Bento Grid Main Content */}
       <section className="py-16 container mx-auto px-4 relative">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none" />
+        {/* Animated glowing orbs for the glassmorphic background effect */}
+        <div className="orb-1 top-0 -right-20" />
+        <div className="orb-2 bottom-0 -left-20" />
+        <div className="orb-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         
         {/* Bento Grid layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[minmax(180px,auto)] relative z-10">
