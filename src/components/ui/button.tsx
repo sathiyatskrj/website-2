@@ -8,11 +8,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const buttonVariants = (variant: string = 'default', size: string = 'default', className: string = '') => {
-  const base = "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-  let variantStyles = "bg-primary text-primary-foreground hover:bg-primary/90"
+  const base = "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden group"
+  let variantStyles = "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_10px_rgba(var(--primary),0.4)] hover:shadow-[0_0_20px_rgba(var(--primary),0.7)]"
   if (variant === 'destructive') variantStyles = "bg-destructive text-destructive-foreground hover:bg-destructive/90"
   if (variant === 'outline') variantStyles = "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
-  if (variant === 'secondary') variantStyles = "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+  if (variant === 'secondary') variantStyles = "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-[0_0_10px_rgba(var(--secondary),0.4)] hover:shadow-[0_0_20px_rgba(var(--secondary),0.7)]"
   if (variant === 'ghost') variantStyles = "hover:bg-accent hover:text-accent-foreground"
   if (variant === 'link') variantStyles = "text-primary underline-offset-4 hover:underline"
 

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import CanvasChessBackground from "@/components/animations/CanvasChessBackground";
+import ParticleNetworkBackground from "@/components/animations/ParticleNetworkBackground";
 import { HeroTypewriter } from "@/components/animations/TypewriterText";
 
 const slides = [
@@ -66,7 +66,7 @@ export function HeroCarousel() {
   return (
     <div className="relative w-full h-[480px] md:h-[600px] lg:h-[720px] overflow-hidden group">
       
-      <CanvasChessBackground />
+      <ParticleNetworkBackground />
       {/* Premium Glassmorphism Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent pointer-events-none z-0" />
       <div className="absolute inset-0 bg-chess-pattern pointer-events-none z-0 mix-blend-overlay" />

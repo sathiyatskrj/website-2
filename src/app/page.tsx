@@ -67,13 +67,12 @@ const upcomingEvents = [
   { name: "Junior Selection Trial", date: "20 Jun 2026", venue: "ANCA HQ", status: "Announced" },
 ];
 
-const quickLinks = [
-  { label: "Player Registration Form", href: "/players/register", icon: FileText },
-  { label: "Tournament Calendar", href: "/tournaments", icon: Calendar },
-  { label: "Download Constitution", href: "/downloads", icon: Download },
-  { label: "Rating List", href: "/players", icon: Trophy },
-  { label: "Contact Secretariat", href: "/contact", icon: Mail },
-  { label: "News & Circulars", href: "/news", icon: FileText },
+const playerPortalLinks = [
+  { label: "New Player Registration", href: "https://prs.aicf.in/new-register", icon: Users, external: true },
+  { label: "Player Search", href: "https://prs.aicf.in/players", icon: FileText, external: true },
+  { label: "Upcoming National Events", href: "https://aicf.in/upcoming-nationals/", icon: Calendar, external: true },
+  { label: "FIDE Ratings", href: "https://ratings.fide.com", icon: Trophy, external: true },
+  { label: "Download Constitution", href: "/downloads", icon: Download, external: false },
 ];
 
 export default function HomePage() {
@@ -161,6 +160,33 @@ export default function HomePage() {
              <div className="w-full max-w-[320px]">
                <ChessPuzzleDisplay title="Playable Demo" description="Interact with the board directly" />
              </div>
+          </ScrollReveal>
+
+          {/* Player Portal Hub - Inspired by AICF */}
+          <ScrollReveal delay={0.4} direction="up" className="lg:col-span-2 glass-panel rounded-3xl p-8 flex flex-col hover:border-secondary/50 transition-colors border border-secondary/20 bg-secondary/5 relative overflow-hidden group">
+            <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-secondary/10 rounded-full blur-[60px] pointer-events-none group-hover:bg-secondary/20 transition-colors duration-700" />
+            <div className="flex items-center justify-between mb-6 relative z-10">
+              <AnimeTextReveal text="Player Portal" className="text-xl font-poppins font-bold text-secondary uppercase tracking-wider" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-10 flex-1">
+              {playerPortalLinks.map((link) => {
+                const Icon = link.icon;
+                return (
+                  <Link 
+                    key={link.label} 
+                    href={link.href}
+                    target={link.external ? "_blank" : "_self"}
+                    rel={link.external ? "noopener noreferrer" : ""}
+                    className="flex items-center gap-3 p-3 rounded-xl bg-background/50 hover:bg-secondary text-foreground hover:text-secondary-foreground transition-all duration-300 border border-border/50 hover:border-secondary shadow-sm hover:shadow-md group/link"
+                  >
+                    <div className="bg-secondary/10 group-hover/link:bg-background/20 p-2 rounded-lg transition-colors">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="text-sm font-semibold truncate">{link.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
           </ScrollReveal>
 
           {/* Python Script Terminal - new bento block */}
