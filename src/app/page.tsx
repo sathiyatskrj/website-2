@@ -85,11 +85,12 @@ export default function HomePage() {
       <HeroCarousel />
 
       {/* Modern Bento Grid Main Content */}
-      <section className="py-16 container mx-auto px-4 relative">
-        {/* Animated glowing orbs for the glassmorphic background effect */}
-        <div className="orb-1 top-0 -right-20" />
-        <div className="orb-2 bottom-0 -left-20" />
-        <div className="orb-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+      <section className="py-24 container mx-auto px-4 relative overflow-hidden">
+        {/* Vibrant Animated glowing orbs for a much more colorful background effect */}
+        <div className="absolute top-0 -right-20 w-[600px] h-[600px] bg-primary/40 dark:bg-primary/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute bottom-0 -left-20 w-[500px] h-[500px] bg-secondary/40 dark:bg-secondary/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none animate-pulse" style={{ animationDuration: '10s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/20 dark:bg-blue-600/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-emerald-500/20 dark:bg-emerald-500/10 rounded-full blur-[100px] mix-blend-screen pointer-events-none animate-pulse" style={{ animationDuration: '12s' }} />
         
         {/* Bento Grid layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[minmax(180px,auto)] relative z-10">
@@ -190,8 +191,8 @@ export default function HomePage() {
           </ScrollReveal>
 
           {/* Python Script Terminal - new bento block */}
-          <ScrollReveal delay={0.45} direction="left" className="lg:col-span-2 rounded-3xl p-1 bg-gradient-to-br from-gray-800 to-black shadow-2xl overflow-hidden hover:scale-[1.01] transition-transform duration-500">
-             <div className="w-full h-full">
+          <ScrollReveal delay={0.45} direction="left" className="lg:col-span-2 rounded-3xl p-[2px] bg-gradient-to-br from-primary via-[#8b5cf6] to-secondary shadow-[0_0_40px_rgba(139,92,246,0.3)] overflow-hidden hover:scale-[1.01] hover:shadow-[0_0_60px_rgba(139,92,246,0.5)] transition-all duration-500">
+             <div className="w-full h-full rounded-3xl overflow-hidden bg-background/50 backdrop-blur-3xl">
                <PythonNerdTerminal />
              </div>
           </ScrollReveal>

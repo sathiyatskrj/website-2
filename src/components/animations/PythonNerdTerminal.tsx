@@ -52,7 +52,7 @@ export function PythonNerdTerminal() {
           if (charIndex < line.text.length) {
             setTyping(line.text.substring(0, charIndex + 1));
             charIndex++;
-            timerId = setTimeout(typeChar, Math.random() * 30 + 20);
+            timerId = setTimeout(typeChar, Math.random() * 30 + 10);
           } else {
             timerId = setTimeout(() => {
               if (isMounted) {
@@ -84,41 +84,51 @@ export function PythonNerdTerminal() {
   }, []);
 
   return (
-    <div className="w-full h-full min-h-[250px] bg-[#0c0c0c] rounded-xl border border-gray-800 shadow-2xl overflow-hidden font-mono flex flex-col items-start p-4 relative text-sm group">
+    <div className="w-full h-full min-h-[280px] bg-[#0a0f1e]/80 backdrop-blur-xl rounded-xl border border-[#3b82f6]/30 shadow-[0_0_30px_rgba(59,130,246,0.2)] overflow-hidden font-mono flex flex-col items-start p-5 relative text-sm group">
+      
+      {/* Animated Glowing Python Backdrop */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#3b82f6]/10 via-transparent to-[#8b5cf6]/10 pointer-events-none z-0"></div>
       
       {/* Terminal Header */}
-      <div className="flex items-center gap-2 mb-4 w-full border-b border-gray-800 pb-2">
-        <div className="flex gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-          <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+      <div className="flex items-center justify-between w-full border-b border-[#3b82f6]/20 pb-3 mb-4 relative z-10">
+        <div className="flex gap-2">
+          <div className="w-3 h-3 rounded-full bg-[#ff5f56] shadow-[0_0_8px_#ff5f56]"></div>
+          <div className="w-3 h-3 rounded-full bg-[#ffbd2e] shadow-[0_0_8px_#ffbd2e]"></div>
+          <div className="w-3 h-3 rounded-full bg-[#27c93f] shadow-[0_0_8px_#27c93f]"></div>
         </div>
-        <div className="text-gray-500 text-xs ml-2 font-semibold">user@anca: ~/engine</div>
+        <div className="text-[#a5b4fc] text-xs font-semibold uppercase tracking-widest bg-[#3b82f6]/10 px-3 py-1 rounded-full border border-[#3b82f6]/20">Python Engine</div>
       </div>
 
       {/* Terminal Content */}
-      <div className="flex flex-col gap-1 text-[11px] sm:text-xs text-gray-300 w-full overflow-y-auto overflow-x-hidden pb-4">
+      <div className="flex flex-col gap-1.5 text-[11px] sm:text-xs text-gray-300 w-full overflow-y-auto overflow-x-hidden pb-4 relative z-10">
         <AnimatePresence>
           {SCRIPT_LINES.slice(0, lines).map((line, idx) => {
             const getColor = (t: string) => {
-              if (t === "cmd") return "text-green-400 font-bold";
-              if (t === "info") return "text-blue-400";
-              if (t === "success") return "text-emerald-400 font-bold";
-              if (t === "out") return "text-gray-400 italic";
+              if (t === "cmd") return "text-[#38bdf8] font-bold";
+              if (t === "info") return "text-[#818cf8]";
+              if (t === "success") return "text-[#34d399] font-bold text-glow";
+              if (t === "out") return "text-gray-400 font-light italic";
+              if (t === "sys") return "text-[#c084fc]";
               return "text-gray-300";
             };
 
             return (
               <motion.div 
                 key={idx}
-                initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 10, filter: "blur(4px)" }} 
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
                 className={`${getColor(line.type)} leading-relaxed break-all`}
               >
-                {/* For the last entered command, we fake the prompt since it was already typed */}
                 {line.type === "cmd" ? (
                     idx === SCRIPT_LINES.length - 1 ? (
-                        <span><span className="text-rose-400">user@anca</span><span className="text-blue-400">:~$</span> </span>
-                    ) : line.text
+                        <span><span className="text-[#f43f5e]">user@anca</span><span className="text-[#38bdf8]">:~$</span> </span>
+                    ) : (
+                        <span>
+                            <span className="text-[#f43f5e]">user@anca</span><span className="text-[#38bdf8]">:~$</span>
+                            <span className="text-[#a3e635] ml-2">{line.text.replace("user@anca:~$ ", "")}</span>
+                        </span>
+                    )
                 ) : line.text}
               </motion.div>
             );
@@ -127,22 +137,23 @@ export function PythonNerdTerminal() {
 
         {/* Currently typing line */}
         {lines < SCRIPT_LINES.length && SCRIPT_LINES[lines].type === "cmd" && (
-          <div className="text-green-400 font-bold leading-relaxed break-all flex items-center">
-            <span>{typing}</span>
-            <span className="w-2 h-4 bg-gray-400 ml-1 animate-pulse inline-block"></span>
+          <div className="text-[#38bdf8] font-bold leading-relaxed break-all flex items-center">
+            <span><span className="text-[#f43f5e]">user@anca</span><span className="text-[#38bdf8]">:~$</span> </span>
+            <span className="text-[#a3e635] ml-2">{typing.replace("user@anca:~$ ", "")}</span>
+            <span className="w-2 h-4 bg-[#a3e635] ml-1 shadow-[0_0_8px_#a3e635] animate-pulse inline-block"></span>
           </div>
         )}
         
         {/* Blinking cursor at end when pending loop */}
         {lines >= SCRIPT_LINES.length && (
            <div className="leading-relaxed break-all mt-1 flex items-center">
-               <span className="w-2 h-4 bg-gray-400 animate-pulse inline-block"></span>
+               <span className="w-2 h-4 bg-[#38bdf8] shadow-[0_0_8px_#38bdf8] animate-pulse inline-block"></span>
            </div>
         )}
       </div>
 
-      <div className="absolute top-4 right-4 text-gray-700/50 text-6xl pointer-events-none group-hover:text-gray-700/80 transition-colors duration-500">
-        <i className="nf nf-dev-python"></i>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/5 text-9xl pointer-events-none z-0">
+        <i className="nf nf-dev-python drop-shadow-[0_0_100px_rgba(59,130,246,0.3)]"></i>
       </div>
     </div>
   );
