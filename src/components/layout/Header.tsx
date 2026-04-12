@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
-import { Search, Menu, Crown, ExternalLink, ChevronDown, Award, Users, MapPin, Calendar, FileText, Download, Trophy } from "lucide-react";
+import { Search, Menu, Crown, ChevronDown, Users, MapPin, Calendar, FileText, Download, Trophy } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SearchOverlay } from "@/components/SearchOverlay";
 
 export function Header() {
+  const [searchOpen, setSearchOpen] = useState(false);
   const [fontSize, setFontSize] = useState<number>(100);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
@@ -23,6 +25,18 @@ export function Header() {
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Global Cmd+K / Ctrl+K shortcut
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
   }, []);
 
   const changeFontSize = (delta: number) => {
@@ -196,9 +210,16 @@ export function Header() {
                 )}
               </div>
             ))}
-            <div className="ml-auto pl-6 border-l border-primary-foreground/10 flex items-center">
-              <button aria-label="Search" className="text-primary-foreground/70 hover:text-secondary p-2 transition-colors">
+            <div className="ml-auto pl-6 border-l border-primary-foreground/10 flex items-center gap-2">
+              <button
+                aria-label="Search (Ctrl+K)"
+                onClick={() => setSearchOpen(true)}
+                className="text-primary-foreground/70 hover:text-secondary p-2 transition-colors flex items-center gap-2 group"
+              >
                 <Search className="h-5 w-5" />
+                <kbd className="hidden lg:inline-flex items-center gap-1 text-[9px] font-mono bg-primary-foreground/10 text-primary-foreground/50 group-hover:text-secondary border border-primary-foreground/20 rounded px-1.5 py-0.5">
+                  ⌘K
+                </kbd>
               </button>
             </div>
           </nav>
@@ -245,6 +266,7 @@ export function Header() {
           </nav>
         </div>
       )}
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }

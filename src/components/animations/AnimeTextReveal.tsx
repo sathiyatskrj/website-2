@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useRef, useEffect } from 'react';
-// @ts-ignore - module installed via CI
-import anime from 'animejs';
-import { useInView } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 interface AnimeTextProps {
   text: string;
@@ -13,56 +11,65 @@ interface AnimeTextProps {
   staggerDelay?: number;
 }
 
+/**
+ * Framer Motion letter-by-letter text reveal (replaces animejs version).
+ */
 export function AnimeTextReveal({
   text,
   className = "",
   delay = 0,
-  duration = 800,
-  staggerDelay = 30
+  duration = 0.5,
+  staggerDelay = 0.03
 }: AnimeTextProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-10%" });
-  const hasAnimated = useRef(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-10%" });
 
-  // Split text into words and letters for animation
   const words = text.split(" ").map(word => ({
     word,
     letters: word.split("")
   }));
 
-  useEffect(() => {
-    if (isInView && !hasAnimated.current && containerRef.current) {
-      hasAnimated.current = true;
-      
-      const targets = containerRef.current.querySelectorAll('.anime-letter');
-      
-      anime({
-        targets,
-        translateY: [40, 0],
-        translateZ: 0,
-        opacity: [0, 1],
-        easing: "easeOutExpo",
-        duration: duration,
-        delay: anime.stagger(staggerDelay, { start: delay })
-      });
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: staggerDelay,
+        delayChildren: delay,
+      }
     }
-  }, [isInView, delay, duration, staggerDelay]);
+  };
+
+  const letterVariants = {
+    hidden: { y: 40, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }
+    }
+  };
 
   return (
-    <div ref={containerRef} className={`overflow-hidden flex flex-wrap gap-[0.25em] ${className}`}>
+    <motion.div
+      ref={ref}
+      variants={containerVariants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      className={`overflow-hidden flex flex-wrap gap-[0.25em] ${className}`}
+    >
       {words.map((wordObj, wordIndex) => (
         <span key={`word-${wordIndex}`} className="inline-flex overflow-hidden">
           {wordObj.letters.map((letter, letterIndex) => (
-            <span
+            <motion.span
               key={`letter-${wordIndex}-${letterIndex}`}
-              className="anime-letter inline-block opacity-0"
+              variants={letterVariants}
+              className="inline-block"
               style={{ transformOrigin: "0 100%" }}
             >
               {letter}
-            </span>
+            </motion.span>
           ))}
         </span>
       ))}
-    </div>
+    </motion.div>
   );
 }

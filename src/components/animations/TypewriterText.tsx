@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 /**
- * Typewriter text effect using typed.js.
- * Inspired by mattboldt/typed.js
+ * Pure React typewriter effect (no typed.js dependency).
  */
 interface TypewriterProps {
   strings: string[];
@@ -14,7 +13,6 @@ interface TypewriterProps {
   backDelay?: number;
   startDelay?: number;
   loop?: boolean;
-  /** If false, types strings one after another without backspacing */
   showCursor?: boolean;
   cursorChar?: string;
 }
@@ -30,38 +28,66 @@ export function Typewriter({
   showCursor = true,
   cursorChar = "|",
 }: TypewriterProps) {
-  const elRef = useRef<HTMLSpanElement>(null);
-  const typedRef = useRef<import("typed.js").default | null>(null);
+  const [displayed, setDisplayed] = useState("");
+  const [phase, setPhase] = useState<"wait" | "type" | "pause" | "erase">("wait");
+  const [strIdx, setStrIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (!elRef.current) return;
+    const current = strings[strIdx] ?? "";
 
-    const init = async () => {
-      const TypedModule = await import("typed.js");
-      const Typed = TypedModule.default;
-      typedRef.current = new Typed(elRef.current!, {
-        strings,
-        typeSpeed,
-        backSpeed,
-        backDelay,
-        startDelay,
-        loop,
-        showCursor,
-        cursorChar,
-        smartBackspace: true,
-      });
+    const tick = () => {
+      if (phase === "wait") {
+        timerRef.current = setTimeout(() => setPhase("type"), startDelay);
+      } else if (phase === "type") {
+        if (charIdx < current.length) {
+          setDisplayed(current.slice(0, charIdx + 1));
+          setCharIdx(c => c + 1);
+          timerRef.current = setTimeout(tick, typeSpeed);
+        } else {
+          setPhase("pause");
+          timerRef.current = setTimeout(tick, backDelay);
+        }
+      } else if (phase === "pause") {
+        if (loop || strIdx < strings.length - 1) {
+          setPhase("erase");
+          timerRef.current = setTimeout(tick, backSpeed);
+        }
+      } else if (phase === "erase") {
+        if (charIdx > 0) {
+          setDisplayed(current.slice(0, charIdx - 1));
+          setCharIdx(c => c - 1);
+          timerRef.current = setTimeout(tick, backSpeed);
+        } else {
+          const next = (strIdx + 1) % strings.length;
+          if (!loop && next === 0) return;
+          setStrIdx(next);
+          setCharIdx(0);
+          setPhase("type");
+          timerRef.current = setTimeout(tick, typeSpeed);
+        }
+      }
     };
 
-    init();
-    return () => { typedRef.current?.destroy(); };
-  }, [strings, typeSpeed, backSpeed, backDelay, startDelay, loop, showCursor, cursorChar]);
+    timerRef.current = setTimeout(tick, 0);
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [phase, charIdx, strIdx, strings, typeSpeed, backSpeed, backDelay, startDelay, loop]);
 
-  return <span ref={elRef} className={className} />;
+  return (
+    <span className={className}>
+      {displayed}
+      {showCursor && (
+        <span className="animate-pulse opacity-80" style={{ animationDuration: "0.7s" }}>
+          {cursorChar}
+        </span>
+      )}
+    </span>
+  );
 }
 
 /**
  * Static typewriter — types a single string once, then stops.
- * Useful for headings and banners.
  */
 interface StaticTypewriterProps {
   text: string;
@@ -78,42 +104,36 @@ export function StaticTypewriter({
   startDelay = 300,
   onComplete,
 }: StaticTypewriterProps) {
-  const elRef = useRef<HTMLSpanElement>(null);
-  const typedRef = useRef<import("typed.js").default | null>(null);
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (!elRef.current) return;
-
-    const init = async () => {
-      const { default: Typed } = await import("typed.js");
-      typedRef.current = new Typed(elRef.current!, {
-        strings: [text],
-        typeSpeed,
-        startDelay,
-        loop: false,
-        showCursor: true,
-        cursorChar: "_",
-        onComplete: () => {
-          // hide cursor after done
-          const cursor = elRef.current?.parentElement?.querySelector(".typed-cursor");
-          if (cursor) {
-            (cursor as HTMLElement).style.animation = "none";
-            (cursor as HTMLElement).style.opacity = "0";
-          }
+    let i = 0;
+    const t = setTimeout(() => {
+      const interval = setInterval(() => {
+        i++;
+        setDisplayed(text.slice(0, i));
+        if (i >= text.length) {
+          clearInterval(interval);
+          setDone(true);
           onComplete?.();
-        },
-      });
-    };
-
-    init();
-    return () => { typedRef.current?.destroy(); };
+        }
+      }, typeSpeed);
+      return () => clearInterval(interval);
+    }, startDelay);
+    return () => clearTimeout(t);
   }, [text, typeSpeed, startDelay, onComplete]);
 
-  return <span ref={elRef} className={className} />;
+  return (
+    <span className={className}>
+      {displayed}
+      {!done && <span className="animate-pulse opacity-70">_</span>}
+    </span>
+  );
 }
 
 /**
- * Multi-line typewriter for a hero section with rotating subtitles.
+ * Hero typewriter with rotating words using pure React state.
  */
 interface HeroTypewriterProps {
   prefix?: string;
@@ -130,34 +150,20 @@ export function HeroTypewriter({
   prefixClassName = "",
   wordClassName = "",
 }: HeroTypewriterProps) {
-  const wordRef = useRef<HTMLSpanElement>(null);
-  const typedRef = useRef<import("typed.js").default | null>(null);
-
-  useEffect(() => {
-    if (!wordRef.current) return;
-
-    const init = async () => {
-      const { default: Typed } = await import("typed.js");
-      typedRef.current = new Typed(wordRef.current!, {
-        strings: rotatingWords,
-        typeSpeed: 60,
-        backSpeed: 40,
-        backDelay: 2000,
-        startDelay: 800,
-        loop: true,
-        showCursor: true,
-        cursorChar: "|",
-      });
-    };
-
-    init();
-    return () => { typedRef.current?.destroy(); };
-  }, [rotatingWords]);
-
   return (
     <span className={className}>
       {prefix && <span className={prefixClassName}>{prefix} </span>}
-      <span ref={wordRef} className={wordClassName} />
+      <Typewriter
+        strings={rotatingWords}
+        className={wordClassName}
+        typeSpeed={60}
+        backSpeed={40}
+        backDelay={2000}
+        startDelay={800}
+        loop={true}
+        showCursor={true}
+        cursorChar="|"
+      />
     </span>
   );
 }
