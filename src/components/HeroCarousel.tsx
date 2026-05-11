@@ -84,22 +84,21 @@ export function HeroCarousel() {
       <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-transparent pointer-events-none z-[1]" />
       <div className="absolute inset-0 bg-chess-pattern pointer-events-none z-[1] mix-blend-overlay opacity-50" />
 
-      {/* Animated slide background tint */}
-      <AnimatePresence initial={false} custom={direction} mode="wait">
+      {/* Animated slide background tint — sync mode so it doesn't block content */}
+      <AnimatePresence initial={false} custom={direction} mode="sync">
         <motion.div
           key={current}
           custom={direction}
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className={`absolute inset-0 pointer-events-none z-[2] bg-gradient-to-br ${slide.gradient} opacity-60`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.6 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+          className={`absolute inset-0 pointer-events-none z-[2] bg-gradient-to-br ${slide.gradient}`}
         />
       </AnimatePresence>
 
       {/* Slide content */}
-      <AnimatePresence initial={false} custom={direction} mode="wait">
+      <AnimatePresence initial={false} mode="wait">
         <motion.div
           key={`content-${current}`}
           custom={direction}

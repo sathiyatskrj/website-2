@@ -125,9 +125,9 @@ export default function HomePage() {
       {/* ── Bento Grid Section ── */}
       <section className="py-20 md:py-28 container mx-auto px-4 relative overflow-hidden">
 
-        {/* Ambient glow orbs */}
-        <div className="absolute top-0 -right-32 w-[700px] h-[700px] bg-primary/20 dark:bg-primary/10 rounded-full blur-[140px] mix-blend-screen pointer-events-none animate-pulse" style={{ animationDuration: '9s' }} />
-        <div className="absolute bottom-0 -left-32 w-[600px] h-[600px] bg-secondary/20 dark:bg-secondary/10 rounded-full blur-[140px] mix-blend-screen pointer-events-none animate-pulse" style={{ animationDuration: '11s' }} />
+        {/* Ambient glow orbs — GPU-composited float, no opacity flash */}
+        <div className="absolute top-0 -right-32 w-[700px] h-[700px] bg-primary/20 dark:bg-primary/10 rounded-full blur-[140px] mix-blend-screen pointer-events-none" style={{ animation: 'float 18s ease-in-out infinite', willChange: 'transform' }} />
+        <div className="absolute bottom-0 -left-32 w-[600px] h-[600px] bg-secondary/20 dark:bg-secondary/10 rounded-full blur-[140px] mix-blend-screen pointer-events-none" style={{ animation: 'float-delayed 22s ease-in-out infinite', willChange: 'transform' }} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-blue-500/10 dark:bg-blue-600/5 rounded-full blur-[180px] mix-blend-screen pointer-events-none" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[minmax(180px,auto)] relative z-10">
