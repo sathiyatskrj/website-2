@@ -166,6 +166,12 @@ export function MiniChessBoard({ className = "", width = 320 }: MiniChessBoardPr
         setSelected(null);
         return;
       }
+      // Allow move only if destination is empty or has an enemy piece
+      if (clicked && clicked.color === board[selRow][selCol]?.color) {
+        // Re-select own piece instead
+        setSelected([row, col]);
+        return;
+      }
       // Move piece
       const newBoard = board.map((r) => [...r]);
       const captured = newBoard[row][col];
@@ -234,7 +240,7 @@ export function ChessPuzzleDisplay({ title = "Puzzle of the Day", description = 
         <h3 className="font-poppins font-bold text-primary text-sm uppercase tracking-wider">{title}</h3>
       </div>
       <MiniChessBoard width={260} />
-      <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-3 py-2 mt-3 font-semibold">
+      <p className="text-[11px] text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800/40 rounded-lg px-3 py-2 mt-3 font-semibold">
         💡 {description}
       </p>
     </div>

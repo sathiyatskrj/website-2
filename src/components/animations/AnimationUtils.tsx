@@ -32,7 +32,7 @@ export function SplitTextReveal({
   return (
     <span ref={ref} className={`inline-flex flex-wrap gap-x-[0.25em] ${className}`}>
       {tokens.map((token, i) => (
-        <span key={i} className="overflow-hidden inline-block" aria-hidden={i > 0}>
+        <span key={i} className="overflow-hidden inline-block">
           <motion.span
             className="inline-block"
             initial={{ y: "110%", opacity: 0 }}

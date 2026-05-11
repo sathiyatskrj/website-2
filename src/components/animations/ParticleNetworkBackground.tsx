@@ -119,7 +119,6 @@ export default function ParticleNetworkBackground() {
         ref={canvasRef}
         className="block w-full h-full"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
     </div>
   );
 }
