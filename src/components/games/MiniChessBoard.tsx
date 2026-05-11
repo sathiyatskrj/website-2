@@ -131,20 +131,32 @@ export function MiniChessBoard({ className = "", width = 320 }: MiniChessBoardPr
     }
   }, [board, selected, lastMove, cellSize]);
 
-  // Game loop
+  // Game loop — pauses when canvas is off-screen
   useEffect(() => {
     let frame: number;
+    let isVisible = true;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => { isVisible = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    if (canvasRef.current) observer.observe(canvasRef.current);
+
     const loop = () => {
+      frame = requestAnimationFrame(loop);
+      if (!isVisible) return; // skip draw when off-screen
       setCaptureAnim((prev) => {
         if (!prev) return prev;
         const next = prev.progress + 0.04;
         return next >= 1 ? null : { ...prev, progress: next };
       });
       drawBoard();
-      frame = requestAnimationFrame(loop);
     };
     frame = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
   }, [drawBoard]);
 
   const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {

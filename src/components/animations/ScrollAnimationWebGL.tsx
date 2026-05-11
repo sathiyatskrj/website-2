@@ -3,24 +3,25 @@
 import React from "react";
 
 /**
- * ScrollAnimationWebGL previously used Three.js which bloated the bundle.
- * Replaced with a lightweight CSS-only floating chess pieces decoration.
- * Renders floating semi-transparent chess symbols that drift upward.
+ * ScrollAnimationWebGL — lightweight CSS floating chess pieces.
+ * Reduced from 12 pieces → 6, only on desktop, lower opacity.
+ * Removed from global layout to prevent running on every page.
+ * Only used on the homepage HeroCarousel.
  */
 export function ScrollAnimationWebGL() {
-  const pieces = ["♟", "♜", "♝", "♞", "♛", "♚", "♙", "♖", "♗", "♘", "♕", "♔"];
+  const pieces = ["♟", "♜", "♝", "♛", "♔", "♞"];
 
   return (
     <div
-      className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none overflow-hidden"
+      className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden hidden md:block"
       aria-hidden="true"
     >
       {pieces.map((piece, i) => {
-        const left = `${(i * 8.3) % 100}%`;
-        const duration = 18 + (i * 3.7) % 14;
-        const delay = -(i * 2.1) % duration;
-        const size = 16 + (i * 5) % 24;
-        const opacity = 0.025 + (i % 4) * 0.008;
+        const left = `${8 + (i * 16) % 90}%`;
+        const duration = 22 + (i * 4) % 12;
+        const delay = -(i * 3.5) % duration;
+        const size = 18 + (i * 6) % 20;
+        const opacity = 0.018 + (i % 3) * 0.006;
         return (
           <span
             key={i}
@@ -38,13 +39,6 @@ export function ScrollAnimationWebGL() {
           </span>
         );
       })}
-      <style>{`
-        @keyframes floatUp {
-          0%   { transform: translateY(0) rotate(0deg) scale(1); }
-          50%  { transform: translateY(-50vh) rotate(180deg) scale(1.05); }
-          100% { transform: translateY(-110vh) rotate(360deg) scale(1); opacity: 0; }
-        }
-      `}</style>
     </div>
   );
 }
